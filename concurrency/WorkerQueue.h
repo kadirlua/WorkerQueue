@@ -1,3 +1,11 @@
+
+//  Author: Kadir ALTINDAG
+//  Asynchronous Worker Queue based on modern C++.
+//  This library allows you to give independented function signatures into the worker queue.
+//  It's a cross platform library which should compile on any operating system without any problem
+//  (I have tested on Windows and Linux)
+//  If you have any opinion or question, please do not hesitate to ask me :)
+
 #ifndef WORKER_QUEUE_H_
 #define WORKER_QUEUE_H_
 
@@ -20,12 +28,6 @@ namespace sdk {
 #define WORKERQUEUE_VERSION_MAJOR 1
 #define WORKERQUEUE_VERSION_MINOR 0
 #define WORKERQUEUE_VERSION_PATCH 0
-
-        //  Asynchronous Worker Queue based on modern C++.
-        //  This library allows you to give independented function signatures into the worker queue.
-        //  It's a cross platform library which should compile on any operating system without any problem
-        //  (I have tested on Windows and Linux)
-        //  If you have any opinion or question, please do not hesitate to ask me :)
 
 		//	Type erasure idiom to make independented function signature
         struct ObjectWrapper
