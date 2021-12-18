@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 project(WorkerQueue)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(PROJECT_DIR ${CMAKE_SOURCE_DIR})
 set(PROJECT_INCLUDE_DIR ${PROJECT_DIR})
 set(PROJECT_SOURCE_DIR ${PROJECT_DIR}/examples)

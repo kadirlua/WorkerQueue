@@ -1,5 +1,8 @@
 
 #include <iostream>
+#if __cplusplus >= 201703L
+#include <filesystem>
+#endif
 #include <concurrency/WorkerQueue.h>
 
 using namespace sdk::concurrency;
@@ -27,6 +30,19 @@ double mySum2(double first, double sec) {
         "param2 \t:" << sec << "\n";
 
     return first + sec;
+}
+
+//  print the current directory given
+void printDir(std::string strDir)
+{
+#if __cplusplus >= 201703L
+    namespace fs = std::filesystem;
+    fs::path currentDir{ strDir };
+    for (const auto& dir : fs::directory_iterator(currentDir))
+    {
+        std::cout << "found: " << dir.path() << "\n";
+    }
+#endif
 }
 
 class DummyClass {
@@ -83,6 +99,8 @@ int main()
     w1.push(&DummyClass::Foo, DummyClass{}, 75);
 
     w1.push(&DummyClass::Assign, DummyClass{}, 15);
+
+    w1.push(printDir, "c:\\");
 
     system("PAUSE");    // wait for user input
 
