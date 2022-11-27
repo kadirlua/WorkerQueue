@@ -38,10 +38,9 @@ void printDir(std::string strDir)
 #if __cplusplus >= 201703L
     namespace fs = std::filesystem;
     fs::path currentDir{ strDir };
-    for (const auto& dir : fs::directory_iterator(currentDir))
-    {
-        std::cout << "found: " << dir.path() << "\n";
-    }
+	for (const auto& dir : fs::directory_iterator(currentDir)) {
+		std::cout << "found: " << dir.path() << "\n";
+	}
 #endif
 }
 
@@ -82,13 +81,15 @@ int main()
     // push our functions into the worker queue. 
     w1.push(foo);
     w1.push(func);
-    w1.push([](int a, int c) {
-        std::cout << "HELLO WORLD!!!\n" << a << " : " << c << "\n";
-        }, 14, 15);
+	w1.push([](int a, int c) {
+		std::cout << "HELLO WORLD!!!\n"
+				  << a << " : " << c << "\n";
+	}, 14, 15);
 
     w1.push([](int a) mutable {
-        std::cout << "MUTABLE FUNCTION!!!\n" << a << "\n";
-        }, 888);
+		std::cout << "MUTABLE FUNCTION!!!\n"
+				  << a << "\n";
+	}, 888);
 
     w1.push(&mySum, 3, 5);
 
