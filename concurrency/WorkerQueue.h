@@ -121,8 +121,9 @@ namespace sdk {
 				// detach all threads
 #if __cplusplus < 202002L
 				for (auto& th : m_threads) {
-					if (th.joinable())
+					if (th.joinable()) {
 						th.join();
+					}
 				}
 #endif
 			}
