@@ -7,36 +7,42 @@
 
 using namespace sdk::concurrency;
 
-void foo(void) {
-    std::cout << "foo\n";
+void foo(void)
+{
+	std::cout << "foo\n";
 }
 
-int func(void) {
-    std::cout << "ret\n";
-    return 12;
+int func(void)
+{
+	std::cout << "ret\n";
+	return 12;
 }
 
-int mySum(int first, int sec) {
-    std::cout << "mySum\n";
-    std::cout << "param1 \t: " << first << "\t"
-        "param2 \t:"<< sec <<"\n";
+int mySum(int first, int sec)
+{
+	std::cout << "mySum\n";
+	std::cout << "param1 \t: " << first << "\t"
+										   "param2 \t:"
+			  << sec << "\n";
 
-    return first + sec;
+	return first + sec;
 }
 
-double mySum2(double first, double sec) {
-    std::cout << "mySum\n";
-    std::cout << "param1 \t: " << first << "\t"
-        "param2 \t:" << sec << "\n";
+double mySum2(double first, double sec)
+{
+	std::cout << "mySum\n";
+	std::cout << "param1 \t: " << first << "\t"
+										   "param2 \t:"
+			  << sec << "\n";
 
-    return first + sec;
+	return first + sec;
 }
 
 //  print the current directory given
 void printDir(std::string strDir)
 {
 #if __cplusplus >= 201703L
-    namespace fs = std::filesystem;
+	namespace fs = std::filesystem;
 	try {
 		const fs::path currentDir{ std::move(strDir) };
 		for (const auto& dir : fs::directory_iterator(currentDir)) {
@@ -51,68 +57,83 @@ void printDir(std::string strDir)
 
 class DummyClass {
 public:
-    DummyClass() = default;
-    ~DummyClass() = default;
+	DummyClass() = default;
+	~DummyClass() = default;
 
-    static void doSomeFunc(int x) {
-        std::cout << x << "\n";
-    }
+	static void doSomeFunc(int x)
+	{
+		std::cout << x << "\n";
+	}
 
-    void Foo(double d) const
-    {
-        std::cout << d << "\n";
-    }
+	void Foo(double d) const
+	{
+		std::cout << d << "\n";
+	}
 
-    int Assign(int a)
-    {
-        mx = a;
-        std::cout << "mx : " << mx << "\n";
-        return mx;
-    }
+	int Assign(int a)
+	{
+		mx = a;
+		std::cout << "mx : " << mx << "\n";
+		return mx;
+	}
 
 private:
-    int mx = 0;
+	int mx = 0;
 };
+
+// an example of callback function
+void myCallback(int a, const std::function<void(int x)>& myFn, int param)
+{
+	std::cout << "myCallback: " << a << "\n";
+	if (myFn) {
+		myFn(param);
+	}
+}
 
 int main()
 {
-    //  Create an instances of WorkerQueue class
-    WorkerQueue w1, w2;
+	//  Create an instances of WorkerQueue class
+	WorkerQueue w1, w2;
 
-    std::cout << "version number: " << WorkerQueue::getVersionStr() << "\n";
+	std::cout << "version number: " << WorkerQueue::getVersionStr() << "\n";
 
-    std::cout << "number of threads available: " << w1.size() << "\n";
+	std::cout << "number of threads available: " << w1.size() << "\n";
 
-    std::cout << "getQueueSize: " << w1.getQueueSize() << "\n";
+	std::cout << "getQueueSize: " << w1.getQueueSize() << "\n";
 
-    
-    // push our functions into the worker queue. 
-    w1.push(foo);
-    w1.push(func);
+	// push our functions into the worker queue.
+	w1.push(foo);
+	w1.push(func);
 	w1.push([](int a, int c) {
 		std::cout << "HELLO WORLD!!!\n"
 				  << a << " : " << c << "\n";
-	}, 14, 15);
+	},
+		14, 15);
 
-    w1.push([](int a) mutable {
+	w1.push([](int a) mutable {
 		std::cout << "MUTABLE FUNCTION!!!\n"
 				  << a << "\n";
-	}, 888);
+	},
+		888);
 
-    w1.push(&mySum, 3, 5);
+	w1.push(&mySum, 3, 5);
 
-    w1.push(&mySum2, 5454.1, 78.3);
+	w1.push(&mySum2, 5454.1, 78.3);
 
-    w1.push(&DummyClass::doSomeFunc, 23);
+	w1.push(&DummyClass::doSomeFunc, 23);
 
-    w1.push(&DummyClass::Foo, DummyClass{}, 75);
+	w1.push(&DummyClass::Foo, DummyClass{}, 75);
 
-    w1.push(&DummyClass::Assign, DummyClass{}, 15);
+	w1.push(&DummyClass::Assign, DummyClass{}, 15);
 
-    w1.push(printDir, "c:\\");
+	w1.push(printDir, "c:\\");
 
-    std::cout << "getQueueSize: " << w1.getQueueSize() << "\n";
+	w1.push(
+		myCallback, 5, [](int param) {
+			std::cout << "callback is called!: " << param << "\n";
+		}, 15);
 
-    system("PAUSE");    // wait for user input
+	std::cout << "getQueueSize: " << w1.getQueueSize() << "\n";
 
+	system("PAUSE"); // wait for user input
 }
