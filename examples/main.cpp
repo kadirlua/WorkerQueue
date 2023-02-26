@@ -82,6 +82,9 @@ int main()
     std::cout << "version number: " << WorkerQueue::getVersionStr() << "\n";
 
     std::cout << "number of threads available: " << w1.size() << "\n";
+
+    std::cout << "getQueueSize: " << w1.getQueueSize() << "\n";
+
     
     // push our functions into the worker queue. 
     w1.push(foo);
@@ -107,6 +110,8 @@ int main()
     w1.push(&DummyClass::Assign, DummyClass{}, 15);
 
     w1.push(printDir, "c:\\");
+
+    std::cout << "getQueueSize: " << w1.getQueueSize() << "\n";
 
     system("PAUSE");    // wait for user input
 

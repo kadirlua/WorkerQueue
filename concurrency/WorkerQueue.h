@@ -153,12 +153,21 @@ namespace sdk {
 			}
 
 			/// <summary>
-			/// returns the number of worker threads which are currently alive.
+			/// returns the number of worker threads.
 			/// </summary>
 			/// <returns>number of threads</returns>
 			NODISCARD std::size_t size() const noexcept
 			{
 				return m_thread_size;
+			}
+
+			/// <summary>
+			/// returns the number of jobs into queue.
+			/// </summary>
+			/// <returns>number of jobs</returns>
+			NODISCARD std::size_t getQueueSize() const noexcept
+			{
+				return m_funcQueue.size();
 			}
 
 		private:
