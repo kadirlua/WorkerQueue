@@ -38,7 +38,7 @@ void printDir(std::string strDir)
 #if __cplusplus >= 201703L
     namespace fs = std::filesystem;
 	try {
-		fs::path currentDir{ strDir };
+		const fs::path currentDir{ std::move(strDir) };
 		for (const auto& dir : fs::directory_iterator(currentDir)) {
 			std::cout << "found: " << dir.path() << "\n";
 		}
