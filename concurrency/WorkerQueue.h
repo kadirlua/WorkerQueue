@@ -55,7 +55,9 @@ namespace sdk {
 				{
 				}
 
-				void operator()() override
+				// The outer noexcept is an exception specifier, 
+				// but the inner one is a noexcept operator.
+				void operator()() noexcept(noexcept(T)) override
 				{
 					wrappedObject();
 				}
