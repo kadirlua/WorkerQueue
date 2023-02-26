@@ -34,8 +34,8 @@ namespace sdk {
 			// move only
 			ObjectWrapper(const ObjectWrapper& rhs) = delete;
 			ObjectWrapper& operator=(const ObjectWrapper& rhs) = delete;
-			ObjectWrapper(ObjectWrapper&& rhs) = default;
-			ObjectWrapper& operator=(ObjectWrapper&& rhs) = default;
+			ObjectWrapper(ObjectWrapper&& rhs) noexcept = default;
+			ObjectWrapper& operator=(ObjectWrapper&& rhs) noexcept = default;
 
 			template <typename T>
 			ObjectWrapper(T&& obj) :
