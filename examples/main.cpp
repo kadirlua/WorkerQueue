@@ -37,9 +37,14 @@ void printDir(std::string strDir)
 {
 #if __cplusplus >= 201703L
     namespace fs = std::filesystem;
-    fs::path currentDir{ strDir };
-	for (const auto& dir : fs::directory_iterator(currentDir)) {
-		std::cout << "found: " << dir.path() << "\n";
+	try {
+		fs::path currentDir{ strDir };
+		for (const auto& dir : fs::directory_iterator(currentDir)) {
+			std::cout << "found: " << dir.path() << "\n";
+		}
+	}
+	catch (const std::filesystem::filesystem_error& err) {
+		std::cout << err.what() << "\n";
 	}
 #endif
 }
