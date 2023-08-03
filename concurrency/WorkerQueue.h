@@ -113,9 +113,9 @@ namespace sdk {
 
 			virtual ~WorkerQueue()
 			{
-				std::unique_lock<std::mutex> lock(m_lock);
+				m_lock.lock();
 				m_quit = true;
-				lock.unlock();
+				m_lock.unlock();
 				m_cv.notify_all();
 
 				// detach all threads
