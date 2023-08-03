@@ -9,6 +9,8 @@ set(PROJECT_SOURCE_DIR ${PROJECT_DIR}/examples)
 
 set(PROJECT_SOURCES ${PROJECT_SOURCE_DIR}/main.cpp)
 
+enable_testing()
+
 include_directories(${PROJECT_INCLUDE_DIR})
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
@@ -16,3 +18,5 @@ add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 if(MSVC)
     target_compile_options(${PROJECT_NAME} PUBLIC "/Zc:__cplusplus")
 endif()
+
+add_test(WorkerQueueTest ${PROJECT_NAME})
