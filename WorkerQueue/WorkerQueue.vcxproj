@@ -19,10 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\concurrency\WorkerQueue.cpp" />
     <ClCompile Include="..\examples\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\concurrency\WorkerQueue.h" />
+    <ClInclude Include="..\concurrency\WorkerQueueExport.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

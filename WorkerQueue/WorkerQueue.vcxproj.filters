@@ -21,9 +21,15 @@
     <ClCompile Include="..\examples\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\concurrency\WorkerQueue.cpp">
+      <Filter>Header Files\concurrency</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\concurrency\WorkerQueue.h">
+      <Filter>Header Files\concurrency</Filter>
+    </ClInclude>
+    <ClInclude Include="..\concurrency\WorkerQueueExport.h">
       <Filter>Header Files\concurrency</Filter>
     </ClInclude>
   </ItemGroup>
