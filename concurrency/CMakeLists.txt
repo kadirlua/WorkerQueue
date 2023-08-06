@@ -27,5 +27,5 @@ else()
 endif()
 
 if(MSVC)
-    target_compile_options(${PROJECT_NAME} PUBLIC "/Zc:__cplusplus")
+    target_compile_options(${LIBRARY_NAME} PUBLIC "/Zc:__cplusplus")
 endif()
