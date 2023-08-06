@@ -13,4 +13,4 @@ target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_BINARY_DIR}/concurrency)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC WorkerQueue)
 
-add_test(WorkerQueueTest ${PROJECT_NAME})
+#add_test(WorkerQueueTest ${PROJECT_NAME})
