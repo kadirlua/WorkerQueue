@@ -5,7 +5,7 @@ project(WorkerQueue)
 set(CMAKE_CXX_STANDARD 17)
 set(PROJECT_DIR ${CMAKE_SOURCE_DIR})
 
-#enable_testing()
+enable_testing()
 
 add_subdirectory(concurrency)
 add_subdirectory(examples)
