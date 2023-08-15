@@ -13,9 +13,11 @@ target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_BINARY_DIR}/concurrency)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC WorkerQueue)
 
+if (WIN32 AND BUILD_SHARED_LIBS)
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy -t $<TARGET_FILE_DIR:${PROJECT_NAME}> $<TARGET_RUNTIME_DLLS:${PROJECT_NAME}>
   COMMAND_EXPAND_LISTS
 )
+endif()
 
 add_test(WorkerQueueTest ${PROJECT_NAME})
