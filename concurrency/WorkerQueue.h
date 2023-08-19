@@ -51,8 +51,8 @@ namespace sdk {
 
 			template <typename T>
 			struct Wrapper : public ObjectBase {
-				Wrapper(T&& t) noexcept :
-					wrappedObject(std::forward<T>(t))
+				Wrapper(T&& obj) noexcept :
+					wrappedObject(std::move(obj))
 				{
 				}
 
@@ -95,10 +95,10 @@ namespace sdk {
 			/// Push an operation into the main queue.
 			/// </summary>
 			template <typename Fn, typename... Args>
-			void push(Fn&& fn, Args&&... args)
+			void push(Fn&& func, Args&&... args)
 			{
 				std::unique_lock<std::mutex> lock(m_lock);
-				m_funcQueue.emplace(std::bind(std::forward<Fn>(fn),
+				m_funcQueue.emplace(std::bind(std::forward<Fn>(func),
 					std::forward<Args>(args)...));
 
 				lock.unlock();
