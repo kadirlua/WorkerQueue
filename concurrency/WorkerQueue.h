@@ -39,8 +39,8 @@ namespace sdk {
 			ObjectWrapper& operator=(ObjectWrapper&& rhs) noexcept = default;
 
 			template <typename T>
-			ObjectWrapper(T&& obj) :
-				wrappedObject{ std::make_unique<Wrapper<T>>(std::forward<T>(obj)) }
+			ObjectWrapper(T obj) :
+				wrappedObject{ std::make_unique<Wrapper<T>>(std::move(obj)) }
 			{
 			}
 
