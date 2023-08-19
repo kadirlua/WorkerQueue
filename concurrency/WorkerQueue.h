@@ -64,7 +64,7 @@ namespace sdk {
 				T wrappedObject;
 			};
 
-			void operator()()
+			void operator()() const
 			{
 #if __cplusplus >= 201703L
 				std::invoke(*wrappedObject);
