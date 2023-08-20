@@ -90,7 +90,7 @@ namespace sdk {
 			using worker_thread = std::thread;
 #endif
 		public:
-			WorkerQueue(std::size_t thread_cnt = std::thread::hardware_concurrency());
+			explicit WorkerQueue(std::size_t thread_cnt = std::thread::hardware_concurrency());
 
 			// non-copyable class
 			WorkerQueue(const WorkerQueue& rhs) = delete;
