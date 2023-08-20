@@ -44,19 +44,21 @@ namespace sdk {
 			{
 			}
 
+			~ObjectWrapper() = default;
+
 			struct ObjectBase {
-				virtual void operator()() = 0;
+				virtual void operator()() const = 0;
 				virtual ~ObjectBase() = default;
 			};
 
 			template <typename T>
 			struct Wrapper : public ObjectBase {
 				Wrapper(T&& obj) noexcept :
-					wrappedObject(std::move(obj))
+					wrappedObject{ std::move(obj) }
 				{
 				}
 
-				void operator()() override
+				void operator()() const override
 				{
 					wrappedObject();
 				}
