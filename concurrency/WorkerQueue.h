@@ -47,8 +47,13 @@ namespace sdk {
 			~ObjectWrapper() = default;
 
 			struct ObjectBase {
+				ObjectBase() noexcept = default;
 				virtual void operator()() = 0;
 				virtual ~ObjectBase() = default;
+				ObjectBase(const ObjectBase&) = default;
+				ObjectBase& operator=(const ObjectBase&) = default;
+				ObjectBase(ObjectBase&&) noexcept = default;
+				ObjectBase& operator=(ObjectBase&&) noexcept = default;
 			};
 
 			template <typename T>
@@ -90,6 +95,8 @@ namespace sdk {
 			// non-copyable class
 			WorkerQueue(const WorkerQueue& rhs) = delete;
 			WorkerQueue& operator=(const WorkerQueue& rhs) = delete;
+			WorkerQueue(WorkerQueue&& rhs) noexcept = delete;
+			WorkerQueue& operator=(WorkerQueue&& rhs) noexcept = delete;
 
 			virtual ~WorkerQueue();
 
