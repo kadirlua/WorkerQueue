@@ -47,7 +47,7 @@ namespace sdk {
 			~ObjectWrapper() = default;
 
 			struct ObjectBase {
-				virtual void operator()() const = 0;
+				virtual void operator()() = 0;
 				virtual ~ObjectBase() = default;
 			};
 
@@ -58,7 +58,7 @@ namespace sdk {
 				{
 				}
 
-				void operator()() const override
+				void operator()() override
 				{
 					wrappedObject();
 				}
