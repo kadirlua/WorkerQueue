@@ -9,20 +9,24 @@ namespace sdk {
 					m_threads.emplace_back([&]() {
 						std::unique_lock<std::mutex> lock(m_lock);
 
-						do {
+						while (!m_quit) {
 							m_cv.wait(lock, [this] {
-								return (m_funcQueue.size() || m_quit);
+								return (!m_funcQueue.empty() || m_quit);
 							});
 
-							if (!m_quit && m_funcQueue.size()) {
-								auto op = std::move(m_funcQueue.front());
+							if (!m_quit && !m_funcQueue.empty()) {
+								auto func = std::move(m_funcQueue.front());
 								m_funcQueue.pop();
 
 								lock.unlock();
-								op();
+#if __cplusplus >= 201703L
+								std::invoke(func);
+#else
+								func();
+#endif
 								lock.lock();
 							}
-						} while (!m_quit);
+						};
 					});
 				}
 			}
@@ -36,9 +40,9 @@ namespace sdk {
 
             // detach all threads
 #if __cplusplus < 202002L
-            for (auto& th : m_threads) {
-                if (th.joinable()) {
-                    th.join();
+            for (auto& tObj : m_threads) {
+                if (tObj.joinable()) {
+					tObj.join();
                 }
             }
 #endif
