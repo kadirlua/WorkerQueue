@@ -7,12 +7,12 @@
 
 using namespace sdk::concurrency;
 
-void foo(void)
+void foo()
 {
 	std::cout << "foo\n";
 }
 
-int func(void)
+int func()
 {
 	std::cout << "ret\n";
 	return 12;
@@ -39,12 +39,12 @@ double mySum2(double first, double sec)
 }
 
 //  print the current directory given
-void printDir(std::string strDir)
+void printDir(const std::string& strDir)
 {
 #if __cplusplus >= 201703L
 	namespace fs = std::filesystem;
 	try {
-		const fs::path currentDir{ std::move(strDir) };
+		const fs::path currentDir{ strDir };
 		for (const auto& dir : fs::directory_iterator(currentDir)) {
 			std::cout << "found: " << dir.path() << "\n";
 		}
@@ -82,9 +82,9 @@ private:
 };
 
 // an example of callback function
-void myCallback(int a, const std::function<void(int x)>& myFn, int param)
+void myCallback(int par, const std::function<void(int x)>& myFn, int param)
 {
-	std::cout << "myCallback: " << a << "\n";
+	std::cout << "myCallback: " << par << "\n";
 	if (myFn) {
 		myFn(param);
 	}
@@ -93,47 +93,47 @@ void myCallback(int a, const std::function<void(int x)>& myFn, int param)
 int main()
 {
 	//  Create an instances of WorkerQueue class
-	WorkerQueue w1, w2;
+	WorkerQueue wQueue;
 
 	std::cout << "version number: " << WorkerQueue::getVersionStr() << "\n";
 
-	std::cout << "number of threads available: " << w1.size() << "\n";
+	std::cout << "number of threads available: " << wQueue.size() << "\n";
 
-	std::cout << "getQueueSize: " << w1.getQueueSize() << "\n";
+	std::cout << "getQueueSize: " << wQueue.getQueueSize() << "\n";
 
 	// push our functions into the worker queue.
-	w1.push(foo);
-	w1.push(func);
-	w1.push([](int a, int c) {
+	wQueue.push(foo);
+	wQueue.push(func);
+	wQueue.push([](int a, int c) {
 		std::cout << "HELLO WORLD!!!\n"
 				  << a << " : " << c << "\n";
 	},
 		14, 15);
 
-	w1.push([](int a) mutable {
+	wQueue.push([](int a) mutable {
 		std::cout << "MUTABLE FUNCTION!!!\n"
 				  << a << "\n";
 	},
 		888);
 
-	w1.push(&mySum, 3, 5);
+	wQueue.push(&mySum, 3, 5);
 
-	w1.push(&mySum2, 5454.1, 78.3);
+	wQueue.push(&mySum2, 5454.1, 78.3);
 
-	w1.push(&DummyClass::doSomeFunc, 23);
+	wQueue.push(&DummyClass::doSomeFunc, 23);
 
-	w1.push(&DummyClass::Foo, DummyClass{}, 75);
+	wQueue.push(&DummyClass::Foo, DummyClass{}, 75);
 
-	w1.push(&DummyClass::Assign, DummyClass{}, 15);
+	wQueue.push(&DummyClass::Assign, DummyClass{}, 15);
 
-	w1.push(printDir, "c:\\");
+	wQueue.push(printDir, "c:\\");
 
-	w1.push(
+	wQueue.push(
 		myCallback, 5, [](int param) {
 			std::cout << "callback is called!: " << param << "\n";
 		}, 15);
 
-	std::cout << "getQueueSize: " << w1.getQueueSize() << "\n";
+	std::cout << "getQueueSize: " << wQueue.getQueueSize() << "\n";
 
 	system("PAUSE"); // wait for user input
 }
