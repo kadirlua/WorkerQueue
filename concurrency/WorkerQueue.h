@@ -17,7 +17,7 @@
 #include "WorkerQueueExport.h"
 #include "version.h"
 
-#if __cplusplus >= 201703L
+#if (__cplusplus >= 201703L)
 #define NODISCARD   [[nodiscard]]
 #else
 #define NODISCARD
@@ -73,7 +73,7 @@ namespace sdk {
 
 			void operator()() const
 			{
-#if __cplusplus >= 201703L
+#if (__cplusplus >= 201703L)
 				std::invoke(*wrappedObject);
 #else
 				(*wrappedObject)();
@@ -84,7 +84,7 @@ namespace sdk {
 		};
 
 		class WORKERQUEUE_API WorkerQueue {
-#if __cplusplus >= 202002L
+#if (__cplusplus >= 202002L)
 			using worker_thread = std::jthread;
 #else
 			using worker_thread = std::thread;

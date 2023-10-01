@@ -19,7 +19,7 @@ namespace sdk {
 								m_funcQueue.pop();
 
 								lock.unlock();
-#if __cplusplus >= 201703L
+#if (__cplusplus >= 201703L)
 								std::invoke(func);
 #else
 								func();
@@ -39,7 +39,7 @@ namespace sdk {
             m_cv.notify_all();
 
             // detach all threads
-#if __cplusplus < 202002L
+#if (__cplusplus < 202002L)
             for (auto& tObj : m_threads) {
                 if (tObj.joinable()) {
 					tObj.join();
