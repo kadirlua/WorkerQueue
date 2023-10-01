@@ -1,6 +1,6 @@
 
 #include <iostream>
-#if __cplusplus >= 201703L
+#if (__cplusplus >= 201703L)
 #include <filesystem>
 #endif
 #include <concurrency/WorkerQueue.h>
@@ -41,7 +41,7 @@ double mySum2(double first, double sec)
 //  print the current directory given
 void printDir(const std::string& strDir)
 {
-#if __cplusplus >= 201703L
+#if (__cplusplus >= 201703L)
 	namespace fs = std::filesystem;
 	try {
 		const fs::path currentDir{ strDir };
