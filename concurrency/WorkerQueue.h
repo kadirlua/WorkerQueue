@@ -60,7 +60,7 @@ namespace sdk {
 			ObjectWrapper& operator=(ObjectWrapper&& rhs) noexcept = default;
 
 			template <typename T>
-			ObjectWrapper(T obj) :
+			ObjectWrapper(T obj) noexcept(std::is_nothrow_move_constructible_v<T>) :
 				wrappedObject{ std::make_unique<Wrapper<T>>(std::move(obj)) }
 			{
 			}
