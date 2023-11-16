@@ -110,6 +110,7 @@ namespace sdk {
 #else
 			using worker_thread = std::thread;
 #endif
+			using size_type = typename std::queue<ObjectWrapper>::size_type;
 		public:
 			explicit WorkerQueue(std::size_t thread_cnt = std::thread::hardware_concurrency());
 
@@ -158,7 +159,7 @@ namespace sdk {
 			/// returns the number of jobs into queue.
 			/// </summary>
 			/// <returns>number of jobs</returns>
-			NODISCARD std::size_t getQueueSize() const noexcept
+			NODISCARD size_type getQueueSize() const noexcept
 			{
 				return m_funcQueue.size();
 			}
