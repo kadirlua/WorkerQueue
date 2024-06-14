@@ -24,10 +24,10 @@
 
 namespace sdk {
     namespace concurrency {
-        WorkerQueue::WorkerQueue(std::size_t thread_cnt) :
-				m_thread_size{ thread_cnt == 0 ? 1 : thread_cnt }
+        WorkerQueue::WorkerQueue(std::size_t threadCnt) :
+				m_threadSize{ threadCnt == 0 ? 1 : threadCnt }
 			{
-				for (std::size_t i = 0; i < m_thread_size; i++) {
+				for (std::size_t i = 0; i < m_threadSize; i++) {
 					m_threads.emplace_back([&]() {
 						std::unique_lock<std::mutex> lock(m_lock);
 

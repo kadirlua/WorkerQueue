@@ -112,7 +112,7 @@ namespace sdk {
 #endif
 			using size_type = typename std::queue<ObjectWrapper>::size_type;
 		public:
-			explicit WorkerQueue(std::size_t thread_cnt = std::thread::hardware_concurrency());
+			explicit WorkerQueue(std::size_t threadCnt = std::thread::hardware_concurrency());
 
 			// non-copyable class
 			WorkerQueue(const WorkerQueue& rhs) = delete;
@@ -152,7 +152,7 @@ namespace sdk {
 			/// <returns>number of threads</returns>
 			NODISCARD std::size_t size() const noexcept
 			{
-				return m_thread_size;
+				return m_threadSize;
 			}
 
 			/// <summary>
@@ -166,7 +166,7 @@ namespace sdk {
 
 		private:
 			bool m_quit{};			   // quit flag to notify the threads waiting
-			std::size_t m_thread_size; // max number of threads
+			std::size_t m_threadSize; // max number of threads
 
 			std::mutex m_lock;					   // locking operations
 			std::condition_variable m_cv;		   // notify the threads waiting
