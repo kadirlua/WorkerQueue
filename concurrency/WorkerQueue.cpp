@@ -29,7 +29,7 @@ namespace sdk {
 			{
 				for (std::size_t i = 0; i < m_threadSize; i++) {
 					m_threads.emplace_back([&]() {
-						std::unique_lock<std::mutex> lock(m_lock);
+						std::unique_lock<std::mutex> lock{ m_lock };
 
 						while (!m_quit) {
 							m_cv.wait(lock, [this] {

@@ -128,7 +128,7 @@ namespace sdk {
 			template <typename Fn, typename... Args>
 			void push(Fn&& func, Args&&... args)
 			{
-				std::unique_lock<std::mutex> lock(m_lock);
+				std::unique_lock<std::mutex> lock{ m_lock };
 				m_funcQueue.emplace(std::bind(std::forward<Fn>(func),
 					std::forward<Args>(args)...));
 
