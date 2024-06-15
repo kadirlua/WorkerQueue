@@ -22,12 +22,18 @@ You can build the library using vcpkg or your own environment. You can use Visua
   > cmake -B build -S .
   > cmake --build build
 ```
+
 Or with make option
 ```
   > mkdir build
   > cd build
   > cmake ..
   > make
+```
+
+If you want to build as static library (default is shared), you can pass the argument as below to cmake for configuration;
+```
+  > cmake -B build -S . -DBUILD_SHARED_LIBS=OFF
 ```
 
 # Conclusion
