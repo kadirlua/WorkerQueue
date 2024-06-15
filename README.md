@@ -13,7 +13,7 @@ Asynchronous Worker Queue based on modern C++. This library allows you to give i
     - clang
 - CMake (Optional)
 
-  # Build the library
+# Build the library
 You can build the library using vcpkg or your own environment. You can use Visual Studio, VSCode or CLion IDEs for building.
 
 ## Compile the library using cmake
