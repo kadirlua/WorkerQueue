@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * A native method that is implemented by the 'socket' native library,
+     * A native method that is implemented by the 'WorkerQueue' native library,
      * which is packaged with this application.
      */
     public native String stringFromJNI();
