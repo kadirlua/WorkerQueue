@@ -13,7 +13,14 @@ Asynchronous Worker Queue based on modern C++. This library allows you to give i
     - clang
 - CMake (Optional)
 
-# Build the library
+# Cloning the library
+You can clone the library using git. Just run the command as shown below:
+
+```
+  > git clone https://github.com/kadirlua/WorkerQueue.git
+```
+
+# Building the library
 You can build the library using vcpkg or your own environment. You can use Visual Studio, VSCode or CLion IDEs for building.
 
 ## Compile the library using cmake
@@ -31,7 +38,7 @@ Or with make option
   > make
 ```
 
-If you want to build as static library (default is shared), you can pass the argument as below to cmake for configuration;
+If you want to build as static library (default is shared), you can pass the argument as shown below to cmake for configuration:
 ```
   > cmake -B build -S . -DBUILD_SHARED_LIBS=OFF
 ```
