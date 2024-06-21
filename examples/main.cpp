@@ -116,8 +116,6 @@ int main()
 	//  Create an instances of WorkerQueue class
 	WorkerQueue wQueue;
 
-	std::cout << "version number: " << WorkerQueue::getVersionStr() << "\n";
-
 	std::cout << "number of threads available: " << wQueue.size() << "\n";
 
 	std::cout << "getQueueSize: " << wQueue.getQueueSize() << "\n";

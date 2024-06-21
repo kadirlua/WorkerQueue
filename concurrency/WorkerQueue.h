@@ -36,7 +36,6 @@
 #include <mutex>
 #include <condition_variable>
 #include "WorkerQueueExport.h"
-#include "version.h"
 
 #if (__cplusplus >= 201703L)
 #define NODISCARD   [[nodiscard]]
@@ -46,10 +45,6 @@
 
 namespace sdk {
 	namespace concurrency {
-
-#define WORKERQUEUE_VERSION_MAJOR 1
-#define WORKERQUEUE_VERSION_MINOR 0
-#define WORKERQUEUE_VERSION_PATCH 0
 
 		//	Type erasure idiom to make independent function signature
 		struct ObjectWrapper {
@@ -134,16 +129,6 @@ namespace sdk {
 
 				lock.unlock();
 				m_cv.notify_one();
-			}
-
-			/// <summary>
-			/// returns the version number of this library
-			/// </summary>
-			/// <returns>version string number</returns>
-			NODISCARD static const char* getVersionStr() noexcept
-			{
-				return VERSION_STR(WORKERQUEUE_VERSION_MAJOR,
-					WORKERQUEUE_VERSION_MINOR, WORKERQUEUE_VERSION_PATCH);
 			}
 
 			/// <summary>

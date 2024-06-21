@@ -1,5 +1,4 @@
 set(LIBRARY_NAME WorkerQueue)
-set(PROJECT_SOURCE_DIR ${PROJECT_DIR}/concurrency)
 
 # WorkerQueue library requires C++14 or higher features
 if (NOT CMAKE_CXX_STANDARD)
@@ -8,7 +7,7 @@ endif()
 
 set(PROJECT_INCLUDE_DIR ${PROJECT_DIR})
 
-set(PROJECT_SOURCES ${PROJECT_SOURCE_DIR}/WorkerQueue.cpp)
+set(PROJECT_SOURCES ${PROJECT_SOURCE_DIR}/concurrency/WorkerQueue.cpp)
 
 include_directories(${PROJECT_INCLUDE_DIR})
 
@@ -28,3 +27,22 @@ endif()
 if(MSVC)
     target_compile_options(${LIBRARY_NAME} PUBLIC "/Zc:__cplusplus")
 endif()
+
+# Set the library version properties
+set_target_properties(${LIBRARY_NAME} PROPERTIES
+    VERSION ${PROJECT_VERSION}
+    SOVERSION 1
+)
+
+# configure header template
+configure_file(
+    "${PROJECT_SOURCE_DIR}/concurrency/version.h.in"
+    "${PROJECT_BINARY_DIR}/concurrency/version.h"
+)
+
+# Custom target to copy the CHANGELOG.md file to the build directory
+add_custom_target(copy_changelog ALL
+    COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/CHANGELOG.md ${CMAKE_BINARY_DIR}/CHANGELOG.md
+    DEPENDS ${PROJECT_SOURCE_DIR}/CHANGELOG.md
+    COMMENT "Copying CHANGELOG.md to the build directory"
+)
