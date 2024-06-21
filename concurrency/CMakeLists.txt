@@ -40,11 +40,11 @@ configure_file(
     "${PROJECT_BINARY_DIR}/concurrency/version.h"
 )
 
-# Custom target to copy the CHANGELOG.md file to the build directory
+# Custom target to copy the Changelog.md file to the build directory
 add_custom_target(copy_changelog ALL
-    COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/CHANGELOG.md ${CMAKE_BINARY_DIR}/CHANGELOG.md
-    DEPENDS ${PROJECT_SOURCE_DIR}/CHANGELOG.md
-    COMMENT "Copying CHANGELOG.md to the build directory"
+    COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/Changelog.md ${CMAKE_BINARY_DIR}/Changelog.md
+    DEPENDS ${PROJECT_SOURCE_DIR}/Changelog.md
+    COMMENT "Copying Changelog.md to the build directory"
 )
 
 include(CPack)
@@ -64,7 +64,7 @@ install(FILES ${HEADER_FILES} DESTINATION include)
 install(FILES ${PROJECT_BINARY_DIR}/concurrency/version.h DESTINATION include)
 
 # Include the CHANGELOG.md and LICENSE files in the package
-install(FILES ${PROJECT_SOURCE_DIR}/CHANGELOG.md DESTINATION .)
+install(FILES ${PROJECT_SOURCE_DIR}/Changelog.md DESTINATION .)
 install(FILES ${PROJECT_SOURCE_DIR}/LICENSE DESTINATION .)
 
 # Include other necessary files and targets
