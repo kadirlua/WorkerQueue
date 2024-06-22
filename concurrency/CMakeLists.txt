@@ -25,7 +25,7 @@ else()
 endif()
 
 if(MSVC)
-    target_compile_options(${LIBRARY_NAME} PUBLIC "/Zc:__cplusplus")
+    target_compile_options(${LIBRARY_NAME} PRIVATE "/Zc:__cplusplus")
 endif()
 
 # Set the library version properties
