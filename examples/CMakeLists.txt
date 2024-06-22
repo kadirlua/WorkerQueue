@@ -7,11 +7,11 @@ set(PROJECT_EXAMPLES_SOURCES
 
 add_executable(${PROJECT_NAME} ${PROJECT_EXAMPLES_SOURCES})
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_DIR})
+target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_DIR})
 
-target_link_directories(${PROJECT_NAME} PUBLIC ${CMAKE_BINARY_DIR}/concurrency)
+target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_BINARY_DIR}/concurrency)
 
-target_link_libraries(${PROJECT_NAME} PUBLIC WorkerQueue)
+target_link_libraries(${PROJECT_NAME} PRIVATE WorkerQueue)
 
 if (WIN32 AND BUILD_SHARED_LIBS)
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
