@@ -69,7 +69,34 @@ install(FILES ${PROJECT_SOURCE_DIR}/LICENSE DESTINATION .)
 
 # Include other necessary files and targets
 install(TARGETS ${LIBRARY_NAME}
+    EXPORT WorkerQueueTargets
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
+    INCLUDES DESTINATION include
+)
+
+# Export the targets for other projects to find
+install(EXPORT WorkerQueueTargets
+        FILE WorkerQueueTargets.cmake
+        NAMESPACE WorkerQueue::
+        DESTINATION lib/cmake/WorkerQueue)
+
+# Create a config file for find_package
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+  "${CMAKE_CURRENT_BINARY_DIR}/WorkerQueueConfigVersion.cmake"
+  VERSION ${PROJECT_VERSION}
+  COMPATIBILITY AnyNewerVersion
+)
+
+configure_package_config_file(${CMAKE_SOURCE_DIR}/Config.cmake.in
+  "${CMAKE_CURRENT_BINARY_DIR}/WorkerQueueConfig.cmake"
+  INSTALL_DESTINATION lib/cmake/WorkerQueue
+)
+
+install(FILES
+  "${CMAKE_CURRENT_BINARY_DIR}/WorkerQueueConfig.cmake"
+  "${CMAKE_CURRENT_BINARY_DIR}/WorkerQueueConfigVersion.cmake"
+  DESTINATION lib/cmake/WorkerQueue
 )
