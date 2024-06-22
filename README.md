@@ -43,5 +43,41 @@ If you want to build as static library (default is shared), you can pass the arg
   > cmake -B build -S . -DBUILD_SHARED_LIBS=OFF
 ```
 
+# Use the library
+You can use the library into your project. It's easy to integrate into your project using cmake configuration. Insert the necessary codes into your project as shown below:
+
+CMakeLists.txt:
+``` cmake
+
+cmake_minimum_required(VERSION 3.22.1)
+
+project(TestProject VERSION 1.0 LANGUAGES CXX)
+
+find_package(WorkerQueue REQUIRED)    # It's required to find the library
+
+add_executable(TestProject main.cpp)
+
+target_link_libraries(TestProject PRIVATE WorkerQueue::WorkerQueue)    # link the library if It's found
+```
+
+main.cpp:
+
+``` cpp
+#include <iostream>
+#include <WorkerQueue.h>
+
+int main()
+{
+    sdk::concurrency::WorkerQueue w1;
+    w1.push([](){
+        std::cout << "Test worker message!\n";
+    });
+    std::cout << w1.getQueueSize() << "\n";
+    // Sleep for a while to complete the job and see result.
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+    return 0;
+}
+```
+
 # Conclusion
 If you have any opinions or questions, please do not hesitate to ask me :)
