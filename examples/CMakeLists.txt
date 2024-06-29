@@ -20,4 +20,4 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 )
 endif()
 
-add_test(WorkerQueueTest ${PROJECT_NAME})
+add_test(WorkerQueueExampleTest ${PROJECT_NAME})
