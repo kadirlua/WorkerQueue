@@ -21,9 +21,7 @@
 // SOFTWARE.
 
 #include <iostream>
-#if (__cplusplus >= 201703L)
 #include <filesystem>
-#endif
 #include <concurrency/WorkerQueue.h>
 
 using namespace sdk::concurrency;
@@ -31,7 +29,6 @@ using namespace sdk::concurrency;
 //  print the current directory given
 void printDir(const std::string& strDir)
 {
-#if (__cplusplus >= 201703L)
 	namespace fs = std::filesystem;
 	try {
 		const fs::path currentDir{ strDir };
@@ -42,7 +39,6 @@ void printDir(const std::string& strDir)
 	catch (const std::filesystem::filesystem_error& err) {
 		std::cout << err.what() << "\n";
 	}
-#endif
 }
 
 int main(int argc, const char * argv[])
@@ -59,5 +55,6 @@ int main(int argc, const char * argv[])
 	}
 	WorkerQueue wQueue;
 	wQueue.push(printDir, dirPath);
+	system("PAUSE"); // wait for user input
 	return 0;
 }
