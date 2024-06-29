@@ -55,6 +55,7 @@ int main(int argc, const char * argv[])
 	}
 	WorkerQueue wQueue;
 	wQueue.push(printDir, dirPath);
-	system("PAUSE"); // wait for user input
+	std::cout << "Press Enter to continue...";
+    std::cin.get();
 	return 0;
 }

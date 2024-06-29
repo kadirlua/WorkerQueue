@@ -135,5 +135,7 @@ int main()
 
 	std::cout << "getQueueSize: " << wQueue.getQueueSize() << "\n";
 
-	system("PAUSE"); // wait for user input
+	std::cout << "Press Enter to continue...";
+    std::cin.get();
+	return 0;
 }
