@@ -59,23 +59,6 @@ double mySum2(double first, double sec)
 	return first + sec;
 }
 
-//  print the current directory given
-void printDir(const std::string& strDir)
-{
-#if (__cplusplus >= 201703L)
-	namespace fs = std::filesystem;
-	try {
-		const fs::path currentDir{ strDir };
-		for (const auto& dir : fs::directory_iterator(currentDir)) {
-			std::cout << "found: " << dir.path() << "\n";
-		}
-	}
-	catch (const std::filesystem::filesystem_error& err) {
-		std::cout << err.what() << "\n";
-	}
-#endif
-}
-
 class DummyClass {
 public:
 	DummyClass() = default;
@@ -144,8 +127,6 @@ int main()
 	wQueue.push(&DummyClass::Foo, DummyClass{}, 75);
 
 	wQueue.push(&DummyClass::Assign, DummyClass{}, 15);
-
-	wQueue.push(printDir, "c:\\");
 
 	wQueue.push(
 		myCallback, 5, [](int param) {

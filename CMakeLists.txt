@@ -10,3 +10,4 @@ enable_testing()
 
 add_subdirectory(concurrency)
 add_subdirectory(examples)
+add_subdirectory(test)
