@@ -158,7 +158,7 @@ namespace sdk {
 			/// <returns>True if the queue is empty, otherwise false.</returns>
 			NODISCARD bool empty() const noexcept
 			{
-				return getQueueSize() == 0;
+				return m_funcQueue.empty();
 			}
 
 		private:
