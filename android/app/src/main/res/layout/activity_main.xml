@@ -13,7 +13,8 @@
         android:layout_marginStart="156dp"
         android:text="Browse"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="32dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/listViewDir" />
 
     <ListView
         android:id="@+id/listViewDir"
