@@ -31,6 +31,7 @@
 #define WORKER_QUEUE_H_
 
 #include <condition_variable>
+#include <cstdlib>
 #include <functional>
 #include <memory>
 #include <mutex>
