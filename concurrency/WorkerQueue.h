@@ -30,11 +30,13 @@
 #ifndef WORKER_QUEUE_H_
 #define WORKER_QUEUE_H_
 
+#include <condition_variable>
 #include <functional>
+#include <memory>
+#include <mutex>
 #include <queue>
 #include <thread>
-#include <mutex>
-#include <condition_variable>
+#include <vector>
 #include "WorkerQueueExport.h"
 
 #if (__cplusplus >= 201703L)
