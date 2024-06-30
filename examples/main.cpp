@@ -135,7 +135,9 @@ int main()
 
 	std::cout << "getQueueSize: " << wQueue.getQueueSize() << "\n";
 
-	std::cout << "Press Enter to continue...";
-    std::cin.get();
+	// wait until worker queue has finished
+	while (wQueue.getQueueSize() != 0) {
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	}
 	return 0;
 }
