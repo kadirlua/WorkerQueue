@@ -152,6 +152,15 @@ namespace sdk {
 				return m_funcQueue.size();
 			}
 
+			/// <summary>
+			/// Checks if the worker queue is empty.
+			/// </summary>
+			/// <returns>True if the queue is empty, otherwise false.</returns>
+			NODISCARD bool empty() const noexcept
+			{
+				return getQueueSize() == 0;
+			}
+
 		private:
 			bool m_quit{};			   // quit flag to notify the threads waiting
 			std::size_t m_threadSize; // max number of threads
