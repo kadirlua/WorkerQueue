@@ -72,9 +72,10 @@ int main()
     w1.push([](){
         std::cout << "Test worker message!\n";
     });
-    std::cout << w1.getQueueSize() << "\n";
-    // Sleep for a while to complete the job and see result.
-    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+    // wait until worker queue has finished
+    while (!w1.empty()) {
+      std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
     return 0;
 }
 ```

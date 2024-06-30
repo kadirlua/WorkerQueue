@@ -12,7 +12,7 @@ Java_com_sdk_workerqueue_MainActivity_stringFromJNI(
         result.append("Test message from worker queue!");
     });
     // wait until worker queue has finished
-	while (wQueue.getQueueSize() != 0) {
+	while (!wQueue.empty()) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
     return env->NewStringUTF(result.c_str());

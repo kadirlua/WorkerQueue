@@ -136,7 +136,7 @@ int main()
 	std::cout << "getQueueSize: " << wQueue.getQueueSize() << "\n";
 
 	// wait until worker queue has finished
-	while (wQueue.getQueueSize() != 0) {
+	while (!wQueue.empty()) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
 	return 0;
