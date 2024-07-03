@@ -43,6 +43,16 @@ If you want to build as static library (default is shared), you can pass the arg
   > cmake -B build -S . -DBUILD_SHARED_LIBS=OFF
 ```
 
+## Build options
+- DBUILD_SHARED_LIBS: Enables/disables shared library. Default is ON.
+- DBUILD_EXAMPLES_SRC: Enables/disables to build examples source codes. Default is ON.
+- DBUILD_TESTS_SRC: Enables/disables to build tests source codes. Default is ON.
+
+An example:
+```
+  > cmake -B build -S . -DBUILD_SHARED_LIBS=OFF -DBUILD_EXAMPLES_SRC=ON -DBUILD_TESTS_SRC=OFF
+```
+
 # Use the library
 You can use the library into your project. It's easy to integrate into your project using cmake configuration. Insert the necessary codes into your project as shown below:
 
