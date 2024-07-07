@@ -3,11 +3,11 @@ Asynchronous Worker Queue based on modern C++. This library allows you to give i
 
 # Features
 - Cross platform (Windows, MacOS, Linux, Android)
-- C++14 and later are supported.
+- C++11 and later are supported.
 - Async function calls
 
 # Prerequisites
-- C++14 or later supported compiler
+- C++11 or later supported compiler
     - msvc
     - gcc
     - clang
