@@ -1,6 +1,8 @@
 set(PROJECT_NAME WorkerQueueTest)
 set(PROJECT_TEST_DIR ${PROJECT_DIR}/test)
 
+set(CMAKE_CXX_STANDARD 17)
+
 set(PROJECT_TEST_SOURCES
     ${PROJECT_TEST_DIR}/printDir.cpp
 )
