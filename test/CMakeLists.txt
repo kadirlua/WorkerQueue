@@ -1,5 +1,5 @@
 set(PROJECT_NAME WorkerQueueTest)
-set(PROJECT_TEST_DIR ${PROJECT_DIR}/test)
+set(PROJECT_TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -13,7 +13,7 @@ if (MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE "/Zc:__cplusplus")
 endif()
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_DIR})
+target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR})
 
 target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_BINARY_DIR}/concurrency)
 

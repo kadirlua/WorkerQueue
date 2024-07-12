@@ -1,5 +1,5 @@
 set(PROJECT_NAME WorkerQueueExample)
-set(PROJECT_EXAMPLES_DIR ${PROJECT_DIR}/examples)
+set(PROJECT_EXAMPLES_DIR ${PROJECT_SOURCE_DIR}/examples)
 
 set(PROJECT_EXAMPLES_SOURCES
     ${PROJECT_EXAMPLES_DIR}/main.cpp
@@ -7,7 +7,7 @@ set(PROJECT_EXAMPLES_SOURCES
 
 add_executable(${PROJECT_NAME} ${PROJECT_EXAMPLES_SOURCES})
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_DIR})
+target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR})
 
 target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_BINARY_DIR}/concurrency)
 
