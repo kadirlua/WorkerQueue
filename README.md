@@ -1,10 +1,10 @@
 # WorkerQueue
-Asynchronous Worker Queue based on modern C++. This library allows you to give independent function signatures to the worker queue. It's a cross-platform library that should compile on any operating system without any problem (I have tested on Windows and Linux).
+WorkerQueue is a lightweight, cross-platform asynchronous task queue for modern C++ (C++11 and later). It allows for concurrent task execution with customizable worker threads.
 
 # Features
-- Cross platform (Windows, MacOS, Linux, Android)
-- C++11 and later are supported.
-- Async function calls
+- Cross-platform (Windows, Linux, macOS, Android)
+- Asynchronous task queue management
+- Uses modern C++ threading primitives
 
 # Prerequisites
 - C++11 or later supported compiler
