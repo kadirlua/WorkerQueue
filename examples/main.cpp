@@ -62,9 +62,6 @@ namespace {
 
 	class DummyClass {
 	public:
-		DummyClass() = default;
-		~DummyClass() = default;
-
 		static void doSomeFunc(int x)
 		{
 			std::cout << x << "\n";
