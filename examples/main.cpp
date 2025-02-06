@@ -20,10 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <functional>
+#include <chrono>
 #include <iostream>
-#if (__cplusplus >= 201703L)
-#include <filesystem>
-#endif
+#include <thread>
 #include <concurrency/WorkerQueue.h>
 
 using namespace sdk::concurrency;
