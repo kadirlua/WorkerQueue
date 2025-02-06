@@ -26,18 +26,20 @@
 
 using namespace sdk::concurrency;
 
-//  print the current directory given
-void printDir(const std::string& strDir)
-{
-	namespace fs = std::filesystem;
-	try {
-		const fs::path currentDir{ strDir };
-		for (const auto& dir : fs::directory_iterator(currentDir)) {
-			std::cout << "found: " << dir.path() << "\n";
+namespace{
+	//  print the current directory given
+	void printDir(const std::string& strDir)
+	{
+		namespace fs = std::filesystem;
+		try {
+			const fs::path currentDir{ strDir };
+			for (const auto& dir : fs::directory_iterator(currentDir)) {
+				std::cout << "found: " << dir.path() << "\n";
+			}
 		}
-	}
-	catch (const std::filesystem::filesystem_error& err) {
-		std::cout << err.what() << "\n";
+		catch (const std::filesystem::filesystem_error& err) {
+			std::cout << err.what() << "\n";
+		}
 	}
 }
 
