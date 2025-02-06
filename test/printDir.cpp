@@ -30,6 +30,7 @@
 using namespace sdk::concurrency;
 
 namespace{
+	constexpr auto const DEFAULT_MS = 100;
 	//  print the current directory given
 	void printDir(const std::string& strDir)
 	{
@@ -62,7 +63,7 @@ int main(int argc, const char * argv[])
 	wQueue.push(printDir, dirPath);
 	// wait until worker queue has finished
 	while (!wQueue.empty()) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		std::this_thread::sleep_for(std::chrono::milliseconds(DEFAULT_MS));
 	}
 	return 0;
 }
