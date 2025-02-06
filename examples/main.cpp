@@ -28,71 +28,73 @@
 
 using namespace sdk::concurrency;
 
-void foo()
-{
-	std::cout << "foo\n";
-}
-
-int func()
-{
-	std::cout << "ret\n";
-	return 12;
-}
-
-int mySum(int first, int sec)
-{
-	std::cout << "mySum\n";
-	std::cout << "param1 \t: " << first << "\t"
-										   "param2 \t:"
-			  << sec << "\n";
-
-	return first + sec;
-}
-
-double mySum2(double first, double sec)
-{
-	std::cout << "mySum\n";
-	std::cout << "param1 \t: " << first << "\t"
-										   "param2 \t:"
-			  << sec << "\n";
-
-	return first + sec;
-}
-
-class DummyClass {
-public:
-	DummyClass() = default;
-	~DummyClass() = default;
-
-	static void doSomeFunc(int x)
+namespace {
+	void foo()
 	{
-		std::cout << x << "\n";
+		std::cout << "foo\n";
 	}
 
-	void Foo(double d) const
+	int func()
 	{
-		std::cout << d << "\n";
+		std::cout << "ret\n";
+		return 12;
 	}
 
-	int Assign(int a)
+	int mySum(int first, int sec)
 	{
-		mx = a;
-		std::cout << "mx : " << mx << "\n";
-		return mx;
+		std::cout << "mySum\n";
+		std::cout << "param1 \t: " << first << "\t"
+											"param2 \t:"
+				<< sec << "\n";
+
+		return first + sec;
 	}
 
-private:
-	int mx = 0;
-};
+	double mySum2(double first, double sec)
+	{
+		std::cout << "mySum\n";
+		std::cout << "param1 \t: " << first << "\t"
+											"param2 \t:"
+				<< sec << "\n";
 
-// an example of callback function
-void myCallback(int par, const std::function<void(int x)>& myFn, int param)
-{
-	std::cout << "myCallback: " << par << "\n";
-	if (myFn) {
-		myFn(param);
+		return first + sec;
 	}
-}
+
+	class DummyClass {
+	public:
+		DummyClass() = default;
+		~DummyClass() = default;
+
+		static void doSomeFunc(int x)
+		{
+			std::cout << x << "\n";
+		}
+
+		void Foo(double d) const
+		{
+			std::cout << d << "\n";
+		}
+
+		int Assign(int a)
+		{
+			mx = a;
+			std::cout << "mx : " << mx << "\n";
+			return mx;
+		}
+
+	private:
+		int mx = 0;
+	};
+
+	// an example of callback function
+	void myCallback(int par, const std::function<void(int x)>& myFn, int param)
+	{
+		std::cout << "myCallback: " << par << "\n";
+		if (myFn) {
+			myFn(param);
+		}
+	}
+} // namespace
 
 int main()
 {
