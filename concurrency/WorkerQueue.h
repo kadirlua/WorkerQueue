@@ -57,26 +57,44 @@ namespace sdk {
 			ObjectWrapper(ObjectWrapper&& rhs) noexcept = default;
 			ObjectWrapper& operator=(ObjectWrapper&& rhs) noexcept = default;
 
+			// Constructor template to wrap any callable object
 			template <typename T>
 			ObjectWrapper(T obj) noexcept(std::is_nothrow_move_constructible_v<T>) :
 				wrappedObject{ std::make_unique<Wrapper<T>>(std::move(obj)) }
 			{
 			}
 
+			// Default destructor
 			~ObjectWrapper() = default;
 
+			// Base class for type erasure
 			struct ObjectBase {
+				// Default constructor
 				ObjectBase() noexcept = default;
+
+				// Pure virtual function to invoke the stored callable object
 				virtual void operator()() = 0;
+
+				// Default virtual destructor
 				virtual ~ObjectBase() = default;
+
+				// Default copy constructor
 				ObjectBase(const ObjectBase&) = default;
+
+				// Default copy assignment operator
 				ObjectBase& operator=(const ObjectBase&) = default;
+
+				// Default move constructor
 				ObjectBase(ObjectBase&&) noexcept = default;
+
+				// Default move assignment operator
 				ObjectBase& operator=(ObjectBase&&) noexcept = default;
 			};
 
+			// Derived class template to wrap specific callable types
 			template <typename T>
 			struct Wrapper : public ObjectBase {
+				// Constructor to wrap the callable object
 				Wrapper(T&& obj) noexcept :
 					wrappedObject{ std::move(obj) }
 				{
