@@ -21,6 +21,10 @@
 // SOFTWARE.
 
 #include "WorkerQueue.h"
+#include <cstddef>
+#include <mutex>
+#include <utility>
+#include <functional>
 
 namespace sdk {
     namespace concurrency {
