@@ -20,9 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <chrono>
 #include <iostream>
 #include <filesystem>
 #include <concurrency/WorkerQueue.h>
+#include <string>
+#include <thread>
 
 using namespace sdk::concurrency;
 
