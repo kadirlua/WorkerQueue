@@ -51,13 +51,13 @@ int main(int argc, const char * argv[])
 {
 	if (argc != 2) {
 		std::cout << "Missing argument.\r\nUsage <exe_name> <directory path>";
-		return -1;
+		return EXIT_FAILURE;
 	}
 
 	const char* dirPath = argv[1];
 	if (!std::filesystem::exists(dirPath)) {
 		std::cout << "Directory does not exist.\r\n";
-		return -1;
+		return EXIT_FAILURE;
 	}
 	WorkerQueue wQueue;
 	wQueue.push(printDir, dirPath);
@@ -65,5 +65,5 @@ int main(int argc, const char * argv[])
 	while (!wQueue.empty()) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(DEFAULT_MS));
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }
