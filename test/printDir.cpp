@@ -29,9 +29,10 @@
 #include <thread>
 
 using namespace sdk::concurrency;
+using namespace std::chrono_literals;
 
 namespace{
-	constexpr auto const DEFAULT_MS = 100;
+	constexpr auto const DEFAULT_MS = 100ms;
 	//  print the current directory given
 	void printDir(const std::string& strDir)
 	{
@@ -64,7 +65,7 @@ int main(int argc, const char * argv[])
 	wQueue.push(printDir, dirPath);
 	// wait until worker queue has finished
 	while (!wQueue.empty()) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(DEFAULT_MS));
+		std::this_thread::sleep_for(DEFAULT_MS);
 	}
 	return EXIT_SUCCESS;
 }
