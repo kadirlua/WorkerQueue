@@ -55,7 +55,7 @@ int main(int argc, const char * argv[])
 		return EXIT_FAILURE;
 	}
 
-	const char* dirPath = argv[1];
+	const char* dirPath{ argv[1] };
 	if (!std::filesystem::exists(dirPath)) {
 		std::cout << "Directory does not exist.\r\n";
 		return EXIT_FAILURE;
