@@ -59,9 +59,10 @@ namespace sdk {
 
         WorkerQueue::~WorkerQueue()
         {
-            m_lock.lock();
-            m_quit = true;
-            m_lock.unlock();
+			{
+				const std::lock_guard<std::mutex> lock{ m_lock };
+				m_quit = true;
+			}
             m_cv.notify_all();
 
             // detach all threads
