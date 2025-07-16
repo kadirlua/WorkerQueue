@@ -22,57 +22,57 @@
 
 #include "WorkerQueue.h"
 #include <cstddef>
+#include <functional>
 #include <mutex>
 #include <utility>
-#include <functional>
 
 namespace sdk {
-    namespace concurrency {
-        WorkerQueue::WorkerQueue(std::size_t threadCnt) :
-				m_threadSize{ threadCnt == 0 ? 1 : threadCnt }
-			{
-				for (std::size_t i = 0; i < m_threadSize; i++) {
-					m_threads.emplace_back([&]() {
-						std::unique_lock<std::mutex> lock{ m_lock };
+	namespace concurrency {
+		WorkerQueue::WorkerQueue(std::size_t threadCnt) :
+			m_threadSize{ threadCnt == 0 ? 1 : threadCnt }
+		{
+			for (std::size_t i = 0; i < m_threadSize; i++) {
+				m_threads.emplace_back([&]() {
+					std::unique_lock<std::mutex> lock{ m_lock };
 
-						while (!m_quit) {
-							m_cv.wait(lock, [this] {
-								return (!m_funcQueue.empty() || m_quit);
-							});
+					while (!m_quit) {
+						m_cv.wait(lock, [this] {
+							return (!m_funcQueue.empty() || m_quit);
+						});
 
-							if (!m_quit && !m_funcQueue.empty()) {
-								auto func = std::move(m_funcQueue.front());
-								m_funcQueue.pop();
+						if (!m_quit && !m_funcQueue.empty()) {
+							auto func = std::move(m_funcQueue.front());
+							m_funcQueue.pop();
 
-								lock.unlock();
+							lock.unlock();
 #if (__cplusplus >= 201703L)
-								std::invoke(func);
+							std::invoke(func);
 #else
-								func();
+							func();
 #endif
-								lock.lock();
-							}
-						};
-					});
-				}
+							lock.lock();
+						}
+					};
+				});
 			}
+		}
 
-        WorkerQueue::~WorkerQueue()
-        {
+		WorkerQueue::~WorkerQueue()
+		{
 			{
 				const std::lock_guard<std::mutex> lock{ m_lock };
 				m_quit = true;
 			}
-            m_cv.notify_all();
+			m_cv.notify_all();
 
-            // detach all threads
+			// detach all threads
 #if (__cplusplus < 202002L)
-            for (auto& tObj : m_threads) {
-                if (tObj.joinable()) {
+			for (auto& tObj : m_threads) {
+				if (tObj.joinable()) {
 					tObj.join();
-                }
-            }
+				}
+			}
 #endif
-        }
-    }
+		}
+	}
 }

@@ -30,6 +30,7 @@
 #ifndef WORKER_QUEUE_H_
 #define WORKER_QUEUE_H_
 
+#include "WorkerQueueExport.h"
 #include <condition_variable>
 #include <cstdlib>
 #include <functional>
@@ -38,10 +39,9 @@
 #include <queue>
 #include <thread>
 #include <vector>
-#include "WorkerQueueExport.h"
 
 #if (__cplusplus >= 201703L)
-#define NODISCARD   [[nodiscard]]
+#define NODISCARD [[nodiscard]]
 #else
 #define NODISCARD
 #endif
@@ -127,6 +127,7 @@ namespace sdk {
 			using worker_thread = std::thread;
 #endif
 			using size_type = typename std::queue<ObjectWrapper>::size_type;
+
 		public:
 			explicit WorkerQueue(std::size_t threadCnt = std::thread::hardware_concurrency());
 
@@ -180,11 +181,11 @@ namespace sdk {
 			}
 
 		private:
-			bool m_quit{};			   // quit flag to notify the threads waiting
+			bool m_quit{};            // quit flag to notify the threads waiting
 			std::size_t m_threadSize; // max number of threads
 
-			std::mutex m_lock;					   // locking operations
-			std::condition_variable m_cv;		   // notify the threads waiting
+			std::mutex m_lock;                     // locking operations
+			std::condition_variable m_cv;          // notify the threads waiting
 			std::queue<ObjectWrapper> m_funcQueue; // main queue to hold operations
 			std::vector<worker_thread> m_threads;  // thread container
 		};
