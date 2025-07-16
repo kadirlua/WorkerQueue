@@ -21,17 +21,17 @@
 // SOFTWARE.
 
 #include <chrono>
-#include <cstdlib>
-#include <iostream>
-#include <filesystem>
 #include <concurrency/WorkerQueue.h>
+#include <cstdlib>
+#include <filesystem>
+#include <iostream>
 #include <string>
 #include <thread>
 
 using namespace sdk::concurrency;
 using namespace std::chrono_literals;
 
-namespace{
+namespace {
 	constexpr auto DEFAULT_MS = 100ms;
 	//  print the current directory given
 	void printDir(const std::string& strDir)
@@ -49,7 +49,7 @@ namespace{
 	}
 }
 
-int main(int argc, const char * argv[])
+int main(int argc, const char* argv[])
 {
 	if (argc != 2) {
 		std::cout << "Missing argument.\r\nUsage <exe_name> <directory path>";
