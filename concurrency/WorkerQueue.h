@@ -126,7 +126,7 @@ namespace sdk {
 #else
 			using worker_thread = std::thread;
 #endif
-			using size_type = typename std::queue<ObjectWrapper>::size_type;
+			using size_type = std::queue<ObjectWrapper>::size_type;
 
 		public:
 			explicit WorkerQueue(std::size_t threadCnt = std::thread::hardware_concurrency());
