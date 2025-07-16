@@ -32,7 +32,7 @@ using namespace sdk::concurrency;
 using namespace std::chrono_literals;
 
 namespace{
-	constexpr auto const DEFAULT_MS = 100ms;
+	constexpr auto DEFAULT_MS = 100ms;
 	//  print the current directory given
 	void printDir(const std::string& strDir)
 	{
