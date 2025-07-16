@@ -44,11 +44,11 @@ If you want to build as static library (default is shared), you can pass the arg
 ```
 
 ## Build options
-| Option | Description |
-| --- | --- |
-| BUILD_SHARED_LIBS | Enables/disables shared library. Default is ON. |
+| Option             | Description                                                     |
+|--------------------|-----------------------------------------------------------------|
+| BUILD_SHARED_LIBS  | Enables/disables shared library. Default is ON.                 |
 | BUILD_EXAMPLES_SRC | Enables/disables to build examples source codes. Default is ON. |
-| BUILD_TESTS_SRC | Enables/disables to build test source codes. Default is ON. |
+| BUILD_TESTS_SRC    | Enables/disables to build test source codes. Default is ON.     |
 
 An example:
 ```
