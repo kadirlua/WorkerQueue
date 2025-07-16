@@ -20,11 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <functional>
 #include <chrono>
+#include <concurrency/WorkerQueue.h>
+#include <functional>
 #include <iostream>
 #include <thread>
-#include <concurrency/WorkerQueue.h>
 
 using namespace sdk::concurrency;
 
@@ -44,8 +44,8 @@ namespace {
 	{
 		std::cout << "mySum\n";
 		std::cout << "param1 \t: " << first << "\t"
-											"param2 \t:"
-				<< sec << "\n";
+											   "param2 \t:"
+				  << sec << "\n";
 
 		return first + sec;
 	}
@@ -54,8 +54,8 @@ namespace {
 	{
 		std::cout << "mySum\n";
 		std::cout << "param1 \t: " << first << "\t"
-											"param2 \t:"
-				<< sec << "\n";
+											   "param2 \t:"
+				  << sec << "\n";
 
 		return first + sec;
 	}
@@ -130,7 +130,8 @@ int main()
 	wQueue.push(
 		myCallback, 5, [](int param) {
 			std::cout << "callback is called!: " << param << "\n";
-		}, 15);
+		},
+		15);
 
 	std::cout << "getQueueSize: " << wQueue.getQueueSize() << "\n";
 
