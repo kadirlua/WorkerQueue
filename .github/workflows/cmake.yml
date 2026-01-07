@@ -19,7 +19,7 @@ jobs:
         shared: [true, false]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6.0.1
 
     - name: Configure CMake shared=${{ matrix.shared }}
       shell: bash
