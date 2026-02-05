@@ -13,6 +13,7 @@ set(PROJECT_SOURCES ${PROJECT_SOURCE_DIR}/concurrency/WorkerQueue.cpp)
 include_directories(${PROJECT_INCLUDE_DIR})
 
 add_library(${LIBRARY_NAME} ${PROJECT_SOURCES})
+add_library(WorkerQueue::${LIBRARY_NAME} ALIAS ${LIBRARY_NAME})
 
 if (BUILD_SHARED_LIBS AND WIN32)
     add_compile_definitions(WORKERQUEUE_COMPILE_DLL=1)
