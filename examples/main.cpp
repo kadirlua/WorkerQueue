@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include <chrono>
-#include <concurrency/WorkerQueue.h>
+#include <WorkerQueue.h>
 #include <functional>
 #include <iostream>
 #include <thread>

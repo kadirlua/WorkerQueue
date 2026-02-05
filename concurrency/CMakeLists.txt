@@ -6,11 +6,7 @@ if (NOT CMAKE_CXX_STANDARD)
 endif()
 set(CMAKE_CXX_STANDARD_REQUIRED ON) # Enforce C++11 standard
 
-set(PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR})
-
 set(PROJECT_SOURCES ${PROJECT_SOURCE_DIR}/concurrency/WorkerQueue.cpp)
-
-include_directories(${PROJECT_INCLUDE_DIR})
 
 add_library(${LIBRARY_NAME} ${PROJECT_SOURCES})
 add_library(WorkerQueue::${LIBRARY_NAME} ALIAS ${LIBRARY_NAME})
@@ -23,6 +19,12 @@ endif()
 if(MSVC)
     target_compile_options(${LIBRARY_NAME} PRIVATE "/Zc:__cplusplus")
 endif()
+
+target_include_directories(${LIBRARY_NAME}
+    PUBLIC
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/concurrency>
+        $<INSTALL_INTERFACE:concurrency>
+)
 
 # Set the library version properties
 set_target_properties(${LIBRARY_NAME} PROPERTIES
