@@ -21,10 +21,10 @@
 // SOFTWARE.
 
 #include <chrono>
-#include <WorkerQueue.h>
 #include <functional>
 #include <iostream>
 #include <thread>
+#include <WorkerQueue.h>
 
 using namespace sdk::concurrency;
 
