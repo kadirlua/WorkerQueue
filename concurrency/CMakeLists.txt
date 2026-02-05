@@ -12,17 +12,11 @@ set(PROJECT_SOURCES ${PROJECT_SOURCE_DIR}/concurrency/WorkerQueue.cpp)
 
 include_directories(${PROJECT_INCLUDE_DIR})
 
-# build options
-option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
+add_library(${LIBRARY_NAME} ${PROJECT_SOURCES})
 
-if (BUILD_SHARED_LIBS)
-    add_library(${LIBRARY_NAME} SHARED ${PROJECT_SOURCES})
-    if (WIN32)
-		add_compile_definitions(WORKERQUEUE_COMPILE_DLL=1)
-		target_compile_definitions(${LIBRARY_NAME} PRIVATE "WORKERQUEUE_DLL_EXPORT")
-	endif()
-else()
-    add_library(${LIBRARY_NAME} STATIC ${PROJECT_SOURCES})
+if (BUILD_SHARED_LIBS AND WIN32)
+    add_compile_definitions(WORKERQUEUE_COMPILE_DLL=1)
+	target_compile_definitions(${LIBRARY_NAME} PRIVATE "WORKERQUEUE_DLL_EXPORT")
 endif()
 
 if(MSVC)
