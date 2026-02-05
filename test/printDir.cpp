@@ -21,12 +21,12 @@
 // SOFTWARE.
 
 #include <chrono>
-#include <WorkerQueue.h>
 #include <cstdlib>
 #include <filesystem>
 #include <iostream>
 #include <string>
 #include <thread>
+#include <WorkerQueue.h>
 
 using namespace sdk::concurrency;
 using namespace std::chrono_literals;
