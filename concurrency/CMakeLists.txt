@@ -35,7 +35,12 @@ set_target_properties(${LIBRARY_NAME} PROPERTIES
 # configure header template
 configure_file(
     "${PROJECT_SOURCE_DIR}/concurrency/version.h.in"
-    "${PROJECT_BINARY_DIR}/concurrency/version.h"
+    "${CMAKE_CURRENT_BINARY_DIR}/generated/version.h"
+)
+
+# add include dir for generated headers
+target_include_directories(${LIBRARY_NAME} PRIVATE
+  ${CMAKE_CURRENT_BINARY_DIR}/generated
 )
 
 # Custom target to copy the Changelog.md file to the build directory
@@ -59,7 +64,7 @@ file(GLOB HEADER_FILES "${PROJECT_SOURCE_DIR}/concurrency/*.h")
 # Install the matched header files
 install(FILES ${HEADER_FILES} DESTINATION include)
 
-install(FILES ${PROJECT_BINARY_DIR}/concurrency/version.h DESTINATION include)
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/generated/version.h" DESTINATION include)
 
 # Include the CHANGELOG.md and LICENSE files in the package
 install(FILES ${PROJECT_SOURCE_DIR}/Changelog.md DESTINATION .)
