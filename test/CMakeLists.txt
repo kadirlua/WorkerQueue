@@ -1,10 +1,9 @@
 set(PROJECT_NAME WorkerQueueTest)
-set(PROJECT_TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 
 set(CMAKE_CXX_STANDARD 17)
 
 set(PROJECT_TEST_SOURCES
-    ${PROJECT_TEST_DIR}/printDir.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/printDir.cpp
 )
 
 add_executable(${PROJECT_NAME} ${PROJECT_TEST_SOURCES})
