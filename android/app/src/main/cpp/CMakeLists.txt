@@ -14,8 +14,6 @@ add_subdirectory( # Specifies the directory of the CMakeLists.txt file.
         # Specifies the directory for the build outputs.
         ${LIB_BUILD_DIR})
 
-include_directories(${LIB_SRC_DIR})
-
 add_library(${CMAKE_PROJECT_NAME} SHARED
 WorkerQueueAndroid.cpp
 )
@@ -27,4 +25,4 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
         # List libraries link to the target library
         android
         log
-        WorkerQueue)
+        WorkerQueue::WorkerQueue)
