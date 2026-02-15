@@ -4,8 +4,20 @@ project("WorkerQueueAndroid")
 
 # Sets LIB_SRC_DIR to the path of the target CMake project.
 set(LIB_SRC_DIR ../../../../../../WorkerQueue)
+
+# --- determine ABI-specific output subfolder ---------------------------------------------------
+if(DEFINED CMAKE_ANDROID_ARCH_ABI)
+    set(_ABI_DIR "${CMAKE_ANDROID_ARCH_ABI}")
+elseif(DEFINED ANDROID_ABI)
+    set(_ABI_DIR "${ANDROID_ABI}")
+elseif(DEFINED ANDROID_ABI_NAME)
+    set(_ABI_DIR "${ANDROID_ABI_NAME}")
+else()
+    set(_ABI_DIR "native")
+endif()
+
 # Sets LIB_BUILD_DIR to the path of the desired output directory.
-set(LIB_BUILD_DIR ${LIB_SRC_DIR}/outputs)
+set(LIB_BUILD_DIR "${LIB_SRC_DIR}/outputs/${_ABI_DIR}")
 
 # Adds the CMakeLists.txt file located in the specified directory
 # as a build dependency.
