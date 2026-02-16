@@ -1,4 +1,4 @@
-#include <concurrency/WorkerQueue.h>
+#include <workerqueue/WorkerQueue.h>
 #include <cstdlib>
 #include <filesystem>
 #include <jni.h>
