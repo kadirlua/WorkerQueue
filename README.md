@@ -76,7 +76,7 @@ main.cpp:
 
 ``` cpp
 #include <iostream>
-#include <WorkerQueue.h>
+#include <workerqueue/WorkerQueue.h>
 
 int main()
 {
