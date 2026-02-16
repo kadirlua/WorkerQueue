@@ -9,6 +9,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON) # Enforce C++11 standard
 set(PROJECT_ROOT_DIR    ${CMAKE_CURRENT_SOURCE_DIR}/..)
 set(PROJECT_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/WorkerQueue.cpp)
 
+option(ENABLE_ASAN "Enable AddressSanitizer" OFF)
+
 add_library(${LIBRARY_NAME} ${PROJECT_SOURCES})
 add_library(WorkerQueue::${LIBRARY_NAME} ALIAS ${LIBRARY_NAME})
 
@@ -42,6 +44,27 @@ set(CPACK_PACKAGE_NAME "WorkerQueue")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 set(CPACK_PACKAGE_DESCRIPTION "Cross platform asynchronous worker queue based on modern C++")
 set(CPACK_PACKAGE_MAINTAINER "kadirlua")
+
+# =========================================================
+# ASAN
+# =========================================================
+
+if(ENABLE_ASAN)
+    message(STATUS "AddressSanitizer enabled")
+
+    if(MSVC)
+        # Apply to the library AND anyone linking to it
+        target_compile_options(${LIBRARY_NAME} PUBLIC /fsanitize=address /Zi)
+
+        # /INFERASANLIBS tells the linker to find the correct ASAN runtime (static or dll)
+        # /INCREMENTAL:NO is mandatory for ASAN
+        target_link_options(${LIBRARY_NAME} PUBLIC /INFERASANLIBS /INCREMENTAL:NO /DEBUG)
+        
+    elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        target_compile_options(${LIBRARY_NAME} PUBLIC -fsanitize=address -fno-omit-frame-pointer)
+        target_link_options(${LIBRARY_NAME} PUBLIC -fsanitize=address)
+    endif()
+endif()
 
 # =========================================================
 # Version header generation

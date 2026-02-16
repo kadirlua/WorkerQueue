@@ -49,6 +49,7 @@ If you want to build as static library (default is shared), you can pass the arg
 | BUILD_SHARED_LIBS  | Enables/disables shared library. Default is ON.                 |
 | BUILD_EXAMPLES_SRC | Enables/disables to build examples source codes. Default is ON. |
 | BUILD_TESTS_SRC    | Enables/disables to build test source codes. Default is ON.     |
+| ENABLE_ASAN        | Enables/disables to build with ASAN support. Default is OFF.    |
 
 An example:
 ```
