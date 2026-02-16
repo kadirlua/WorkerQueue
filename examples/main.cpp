@@ -24,7 +24,7 @@
 #include <functional>
 #include <iostream>
 #include <thread>
-#include <WorkerQueue.h>
+#include <workerqueue/WorkerQueue.h>
 
 using namespace sdk::concurrency;
 
