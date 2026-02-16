@@ -6,6 +6,7 @@ if (NOT CMAKE_CXX_STANDARD)
 endif()
 set(CMAKE_CXX_STANDARD_REQUIRED ON) # Enforce C++11 standard
 
+set(PROJECT_ROOT_DIR    ${CMAKE_CURRENT_SOURCE_DIR}/..)
 set(PROJECT_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/WorkerQueue.cpp)
 
 add_library(${LIBRARY_NAME} ${PROJECT_SOURCES})
@@ -22,31 +23,15 @@ endif()
 
 target_include_directories(${LIBRARY_NAME}
     PUBLIC
-        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/concurrency>
-        $<INSTALL_INTERFACE:concurrency>
-)
-
-# Set the library version properties
-set_target_properties(${LIBRARY_NAME} PROPERTIES
-    VERSION ${PROJECT_VERSION}
-    SOVERSION 1
-)
-
-# configure header template
-configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/version.h.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/generated/version.h"
-)
-
-# add include dir for generated headers
-target_include_directories(${LIBRARY_NAME} PRIVATE
-  ${CMAKE_CURRENT_BINARY_DIR}/generated
+        $<BUILD_INTERFACE:${PROJECT_ROOT_DIR}/include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/generated>
+        $<INSTALL_INTERFACE:include>
 )
 
 # Custom target to copy the Changelog.md file to the build directory
 add_custom_target(copy_changelog ALL
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/../Changelog.md ${CMAKE_BINARY_DIR}/Changelog.md
-    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/../Changelog.md
+    COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_ROOT_DIR}/Changelog.md ${CMAKE_BINARY_DIR}/Changelog.md
+    DEPENDS ${PROJECT_ROOT_DIR}/Changelog.md
     COMMENT "Copying Changelog.md to the build directory"
 )
 
@@ -58,17 +43,49 @@ set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 set(CPACK_PACKAGE_DESCRIPTION "Cross platform asynchronous worker queue based on modern C++")
 set(CPACK_PACKAGE_MAINTAINER "kadirlua")
 
-# Use file(GLOB ...) to match specific header files
-file(GLOB HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+# =========================================================
+# Version header generation
+# =========================================================
+
+# configure header template
+configure_file(
+    "${PROJECT_ROOT_DIR}/include/workerqueue/version.h.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/generated/workerqueue/version.h"
+    @ONLY
+)
+
+# =========================================================
+# Library version
+# =========================================================
+
+# Set the library version properties
+set_target_properties(${LIBRARY_NAME} PROPERTIES
+    VERSION ${PROJECT_VERSION}
+    SOVERSION ${PROJECT_VERSION_MAJOR}
+)
+
+# =========================================================
+# Install headers
+# =========================================================
 
 # Install the matched header files
-install(FILES ${HEADER_FILES} DESTINATION include)
+install(DIRECTORY "${PROJECT_INCLUDE_DIR}"
+        DESTINATION include
+        FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp"
+)
 
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/generated/version.h" DESTINATION include)
+install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/generated/workerqueue/version.h"
+    DESTINATION include/workerqueue
+)
 
 # Include the CHANGELOG.md and LICENSE files in the package
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/../Changelog.md DESTINATION .)
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/../LICENSE DESTINATION .)
+install(FILES ${PROJECT_ROOT_DIR}/Changelog.md DESTINATION .)
+install(FILES ${PROJECT_ROOT_DIR}/LICENSE DESTINATION .)
+
+# =========================================================
+# Install library
+# =========================================================
 
 # Include other necessary files and targets
 install(TARGETS ${LIBRARY_NAME}
@@ -79,27 +96,31 @@ install(TARGETS ${LIBRARY_NAME}
     INCLUDES DESTINATION include
 )
 
+# =========================================================
+# Export package config
+# =========================================================
+
 # Export the targets for other projects to find
 install(EXPORT WorkerQueueTargets
         FILE WorkerQueueTargets.cmake
         NAMESPACE WorkerQueue::
-        DESTINATION lib/cmake/WorkerQueue)
+        DESTINATION lib/cmake/workerqueue)
 
 # Create a config file for find_package
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
   "${CMAKE_CURRENT_BINARY_DIR}/WorkerQueueConfigVersion.cmake"
   VERSION ${PROJECT_VERSION}
-  COMPATIBILITY AnyNewerVersion
+  COMPATIBILITY SameMajorVersion
 )
 
 configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/../Config.cmake.in
   "${CMAKE_CURRENT_BINARY_DIR}/WorkerQueueConfig.cmake"
-  INSTALL_DESTINATION lib/cmake/WorkerQueue
+  INSTALL_DESTINATION lib/cmake/workerqueue
 )
 
 install(FILES
   "${CMAKE_CURRENT_BINARY_DIR}/WorkerQueueConfig.cmake"
   "${CMAKE_CURRENT_BINARY_DIR}/WorkerQueueConfigVersion.cmake"
-  DESTINATION lib/cmake/WorkerQueue
+  DESTINATION lib/cmake/workerqueue
 )

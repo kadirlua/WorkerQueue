@@ -30,7 +30,6 @@
 #ifndef WORKER_QUEUE_H_
 #define WORKER_QUEUE_H_
 
-#include "WorkerQueueExport.h"
 #include <condition_variable>
 #include <cstdlib>
 #include <functional>
@@ -39,6 +38,7 @@
 #include <queue>
 #include <thread>
 #include <vector>
+#include <workerqueue/WorkerQueueExport.h>
 
 #if (__cplusplus >= 201703L)
 #define NODISCARD [[nodiscard]]

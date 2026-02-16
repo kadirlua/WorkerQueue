@@ -20,14 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "WorkerQueue.h"
 #include <cstddef>
 #include <functional>
 #include <mutex>
 #include <utility>
+#include <workerqueue/WorkerQueue.h>
 
 namespace sdk {
 	namespace concurrency {
+
 		WorkerQueue::WorkerQueue(std::size_t threadCnt) :
 			m_threadSize{ threadCnt == 0 ? 1 : threadCnt }
 		{

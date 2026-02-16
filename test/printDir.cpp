@@ -26,7 +26,7 @@
 #include <iostream>
 #include <string>
 #include <thread>
-#include <WorkerQueue.h>
+#include <workerqueue/WorkerQueue.h>
 
 using namespace sdk::concurrency;
 using namespace std::chrono_literals;
