@@ -92,7 +92,7 @@ set_target_properties(${LIBRARY_NAME} PROPERTIES
 # =========================================================
 
 # Install the matched header files
-install(DIRECTORY "${PROJECT_INCLUDE_DIR}"
+install(DIRECTORY "${PROJECT_ROOT_DIR}/include/workerqueue"
         DESTINATION include
         FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp"
 )
