@@ -15,15 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\workerqueue\WorkerQueue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\workerqueue\WorkerQueueExport.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\concurrency\WorkerQueue.cpp">
+    <ClCompile Include="..\..\test\printDir.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
