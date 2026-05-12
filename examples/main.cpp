@@ -20,10 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <chrono>
 #include <functional>
 #include <iostream>
-#include <thread>
 #include <workerqueue/WorkerQueue.h>
 
 using namespace sdk::concurrency;
@@ -109,13 +107,13 @@ int main()
 		std::cout << "HELLO WORLD!!!\n"
 				  << a << " : " << c << "\n";
 	},
-		14, 15);
+	            14, 15);
 
 	wQueue.push([](int a) mutable {
 		std::cout << "MUTABLE FUNCTION!!!\n"
 				  << a << "\n";
 	},
-		888);
+	            888);
 
 	wQueue.push(&mySum, 3, 5);
 
@@ -133,11 +131,9 @@ int main()
 		},
 		15);
 
-	std::cout << "getQueueSize: " << wQueue.getQueueSize() << "\n";
+	// wait until all queued and running jobs have finished
+	wQueue.wait();
 
-	// wait until worker queue has finished
-	while (!wQueue.empty()) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
-	}
+	std::cout << "getQueueSize: " << wQueue.getQueueSize() << "\n";
 	return 0;
 }

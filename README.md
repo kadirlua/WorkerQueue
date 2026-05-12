@@ -85,10 +85,8 @@ int main()
     w1.push([](){
         std::cout << "Test worker message!\n";
     });
-    // wait until worker queue has finished
-    while (!w1.empty()) {
-      std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
+    // wait until all queued and running jobs have finished
+    w1.wait();
     return 0;
 }
 ```

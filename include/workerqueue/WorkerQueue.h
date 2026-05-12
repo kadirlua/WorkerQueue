@@ -20,12 +20,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-//  Author: Kadir Altindag
-//  Asynchronous Worker Queue based on modern C++.
-//  This library allows you to give independent function signatures into the worker queue.
-//  It's a cross-platform library which should compile on any operating system without any problem
-//  (I have tested on Windows and Linux)
-//  If you have any opinion or question, please do not hesitate to ask me :)
 
 #ifndef WORKER_QUEUE_H_
 #define WORKER_QUEUE_H_
@@ -37,7 +31,10 @@
 #include <mutex>
 #include <queue>
 #include <thread>
+#include <type_traits>
+#include <utility>
 #include <vector>
+
 #include <workerqueue/WorkerQueueExport.h>
 
 #if (__cplusplus >= 201703L)
@@ -49,7 +46,7 @@
 namespace sdk {
 	namespace concurrency {
 
-		//	Type erasure idiom to make independent function signature
+		// Type erasure idiom to make independent function signature
 		struct ObjectWrapper {
 			// move only
 			ObjectWrapper(const ObjectWrapper& rhs) = delete;
@@ -59,8 +56,8 @@ namespace sdk {
 
 			// Constructor template to wrap any callable object
 			template <typename T>
-			ObjectWrapper(T obj) noexcept(std::is_nothrow_move_constructible_v<T>) :
-				wrappedObject{ std::make_unique<Wrapper<T>>(std::move(obj)) }
+			explicit ObjectWrapper(T&& obj) noexcept(std::is_nothrow_constructible<typename std::decay<T>::type, T&&>::value) :
+				wrappedObject{ new Wrapper<typename std::decay<T>::type>(std::forward<T>(obj)) }
 			{
 			}
 
@@ -95,8 +92,9 @@ namespace sdk {
 			template <typename T>
 			struct Wrapper : public ObjectBase {
 				// Constructor to wrap the callable object
-				Wrapper(T&& obj) noexcept :
-					wrappedObject{ std::move(obj) }
+				template <typename U>
+				explicit Wrapper(U&& obj) noexcept(std::is_nothrow_constructible<T, U&&>::value) :
+					wrappedObject{ std::forward<U>(obj) }
 				{
 				}
 
@@ -121,11 +119,7 @@ namespace sdk {
 		};
 
 		class WORKERQUEUE_API WorkerQueue {
-#if (__cplusplus >= 202002L)
-			using worker_thread = std::jthread;
-#else
 			using worker_thread = std::thread;
-#endif
 			using size_type = std::queue<ObjectWrapper>::size_type;
 
 		public:
@@ -145,13 +139,41 @@ namespace sdk {
 			template <typename Fn, typename... Args>
 			void push(Fn&& func, Args&&... args)
 			{
+				static_cast<void>(tryPush(std::forward<Fn>(func), std::forward<Args>(args)...));
+			}
+
+			/// <summary>
+			/// Try to push an operation into the main queue.
+			/// </summary>
+			/// <returns>True if the operation was queued, otherwise false.</returns>
+			template <typename Fn, typename... Args>
+			NODISCARD bool tryPush(Fn&& func, Args&&... args)
+			{
+				ObjectWrapper task{ std::bind(std::forward<Fn>(func), std::forward<Args>(args)...) };
+
 				{
 					const std::lock_guard<std::mutex> lock{ m_lock };
-					m_funcQueue.emplace(std::bind(std::forward<Fn>(func),
-						std::forward<Args>(args)...));
+					if (m_quit) {
+						return false;
+					}
+
+					m_funcQueue.emplace(std::move(task));
 				}
+
 				m_cv.notify_one();
+				return true;
 			}
+
+			/// <summary>
+			/// Wait until all queued and running jobs are finished.
+			/// </summary>
+			void wait() noexcept;
+
+			/// <summary>
+			/// Stop accepting new jobs and stop the workers.
+			/// </summary>
+			/// <param name="waitForTasks">If true, queued jobs are completed before stopping.</param>
+			void shutdown(bool waitForTasks = true) noexcept;
 
 			/// <summary>
 			/// returns the number of worker threads.
@@ -163,32 +185,36 @@ namespace sdk {
 			}
 
 			/// <summary>
-			/// returns the number of jobs into queue.
+			/// returns the number of queued jobs.
 			/// </summary>
-			/// <returns>number of jobs</returns>
-			NODISCARD size_type getQueueSize() const noexcept
-			{
-				return m_funcQueue.size();
-			}
+			/// <returns>number of queued jobs</returns>
+			NODISCARD size_type getQueueSize() const noexcept;
 
 			/// <summary>
-			/// Checks if the worker queue is empty.
+			/// Checks if the worker queue has no queued or running jobs.
 			/// </summary>
-			/// <returns>True if the queue is empty, otherwise false.</returns>
-			NODISCARD bool empty() const noexcept
-			{
-				return m_funcQueue.empty();
-			}
+			/// <returns>True if the queue has no work, otherwise false.</returns>
+			NODISCARD bool empty() const noexcept;
+
+			/// <summary>
+			/// Checks if the worker queue is stopped.
+			/// </summary>
+			/// <returns>True if the queue is stopped, otherwise false.</returns>
+			NODISCARD bool stopped() const noexcept;
 
 		private:
-			bool m_quit{};            // quit flag to notify the threads waiting
-			std::size_t m_threadSize; // max number of threads
+			void joinThreads() noexcept;
 
-			std::mutex m_lock;                     // locking operations
+			bool m_quit{};                         // quit flag to notify the threads waiting
+			std::size_t m_threadSize;              // max number of threads
+			std::size_t m_activeWorkers{};         // number of worker threads currently running jobs
+			mutable std::mutex m_lock;             // locking operations
 			std::condition_variable m_cv;          // notify the threads waiting
+			std::condition_variable m_finishedCv;  // notify waiters when all work has finished
 			std::queue<ObjectWrapper> m_funcQueue; // main queue to hold operations
 			std::vector<worker_thread> m_threads;  // thread container
 		};
+
 	} // namespace concurrency
 } // namespace sdk
 

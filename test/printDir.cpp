@@ -20,19 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <chrono>
 #include <cstdlib>
 #include <filesystem>
 #include <iostream>
 #include <string>
-#include <thread>
 #include <workerqueue/WorkerQueue.h>
 
 using namespace sdk::concurrency;
 using namespace std::chrono_literals;
 
 namespace {
-	constexpr auto DEFAULT_MS = 100ms;
 	//  print the current directory given
 	void printDir(const std::string& strDir)
 	{
@@ -63,9 +60,7 @@ int main(int argc, const char* argv[])
 	}
 	WorkerQueue wQueue;
 	wQueue.push(printDir, dirPath);
-	// wait until worker queue has finished
-	while (!wQueue.empty()) {
-		std::this_thread::sleep_for(DEFAULT_MS);
-	}
+	// wait until all queued and running jobs have finished
+	wQueue.wait();
 	return EXIT_SUCCESS;
 }
