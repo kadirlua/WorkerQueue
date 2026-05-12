@@ -28,10 +28,10 @@
 #if WORKERQUEUE_DLL_EXPORT
 #define WORKERQUEUE_API __declspec(dllexport)
 #else
-#define WORKERQUEUET_API __declspec(dllimport)
+#define WORKERQUEUE_API __declspec(dllimport)
 #endif
 #else
-#if __GNUC__ >= 4
+#if defined(__GNUC__) && (__GNUC__ >= 4)
 #define WORKERQUEUE_API __attribute__((visibility("default")))
 #else
 #define WORKERQUEUE_API
