@@ -2,7 +2,6 @@ package com.sdk.workerqueue;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.View;
 import android.os.Bundle;
 import android.widget.Button;
 import java.util.ArrayList;
@@ -63,12 +62,9 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, fileList);
         listViewDir.setAdapter(adapter);
 
-        reqBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-                directoryPickerLauncher.launch(intent);
-            }
+        reqBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+            directoryPickerLauncher.launch(intent);
         });
     }
 
