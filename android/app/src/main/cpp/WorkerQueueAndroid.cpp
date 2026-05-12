@@ -5,10 +5,6 @@
 #include <string>
 #include <vector>
 
-namespace {
-	constexpr auto DEFAULT_SLEEP_TIME = 100;
-}
-
 extern "C" JNIEXPORT jobjectArray JNICALL
 Java_com_sdk_workerqueue_MainActivity_listDirectoryContents(
 	JNIEnv* env,
@@ -27,9 +23,7 @@ Java_com_sdk_workerqueue_MainActivity_listDirectoryContents(
 		}
 	});
 	// wait until worker queue has finished
-	while (!wQueue.empty()) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(DEFAULT_SLEEP_TIME));
-	}
+	wQueue.wait();
 
 	jobjectArray fileArray = env->NewObjectArray(files.size(), env->FindClass("java/lang/String"), nullptr);
 	for (std::size_t i = 0; i < files.size(); ++i) {
