@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace 'com.sdk.workerqueue'
+    namespace = 'com.sdk.workerqueue'
     compileSdk = 37
 
     defaultConfig {
@@ -39,7 +39,7 @@ android {
         }
     }
     buildFeatures {
-        viewBinding true
+        viewBinding = true
     }
 }
 
