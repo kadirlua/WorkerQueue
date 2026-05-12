@@ -6,7 +6,7 @@ if (NOT CMAKE_CXX_STANDARD)
 endif()
 set(CMAKE_CXX_STANDARD_REQUIRED ON) # Enforce C++11 standard
 
-set(PROJECT_ROOT_DIR    ${CMAKE_CURRENT_SOURCE_DIR}/..)
+set(PROJECT_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
 set(PROJECT_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/WorkerQueue.cpp)
 
 option(ENABLE_ASAN "Enable AddressSanitizer" OFF)
@@ -15,11 +15,11 @@ add_library(${LIBRARY_NAME} ${PROJECT_SOURCES})
 add_library(WorkerQueue::${LIBRARY_NAME} ALIAS ${LIBRARY_NAME})
 
 if (BUILD_SHARED_LIBS AND WIN32)
-    add_compile_definitions(WORKERQUEUE_COMPILE_DLL=1)
-	target_compile_definitions(${LIBRARY_NAME} PRIVATE "WORKERQUEUE_DLL_EXPORT")
+    target_compile_definitions(${LIBRARY_NAME} PUBLIC WORKERQUEUE_COMPILE_DLL=1)
+    target_compile_definitions(${LIBRARY_NAME} PRIVATE WORKERQUEUE_DLL_EXPORT=1)
 endif()
 
-if(MSVC)
+if (MSVC)
     target_compile_options(${LIBRARY_NAME} PRIVATE "/Zc:__cplusplus")
 endif()
 
@@ -48,19 +48,16 @@ set(CPACK_PACKAGE_MAINTAINER "kadirlua")
 # =========================================================
 # ASAN
 # =========================================================
-
-if(ENABLE_ASAN)
+if (ENABLE_ASAN)
     message(STATUS "AddressSanitizer enabled")
 
-    if(MSVC)
+    if (MSVC)
         # Apply to the library AND anyone linking to it
         target_compile_options(${LIBRARY_NAME} PUBLIC /fsanitize=address /Zi)
-
         # /INFERASANLIBS tells the linker to find the correct ASAN runtime (static or dll)
         # /INCREMENTAL:NO is mandatory for ASAN
         target_link_options(${LIBRARY_NAME} PUBLIC /INFERASANLIBS /INCREMENTAL:NO /DEBUG)
-        
-    elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    elseif (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
         target_compile_options(${LIBRARY_NAME} PUBLIC -fsanitize=address -fno-omit-frame-pointer)
         target_link_options(${LIBRARY_NAME} PUBLIC -fsanitize=address)
     endif()
@@ -69,7 +66,6 @@ endif()
 # =========================================================
 # Version header generation
 # =========================================================
-
 # configure header template
 configure_file(
     "${PROJECT_ROOT_DIR}/include/workerqueue/version.h.in"
@@ -80,7 +76,6 @@ configure_file(
 # =========================================================
 # Library version
 # =========================================================
-
 # Set the library version properties
 set_target_properties(${LIBRARY_NAME} PROPERTIES
     VERSION ${PROJECT_VERSION}
@@ -90,11 +85,10 @@ set_target_properties(${LIBRARY_NAME} PROPERTIES
 # =========================================================
 # Install headers
 # =========================================================
-
 # Install the matched header files
 install(DIRECTORY "${PROJECT_ROOT_DIR}/include/workerqueue"
-        DESTINATION include
-        FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp"
+    DESTINATION include
+    FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp"
 )
 
 install(FILES
@@ -109,7 +103,6 @@ install(FILES ${PROJECT_ROOT_DIR}/LICENSE DESTINATION .)
 # =========================================================
 # Install library
 # =========================================================
-
 # Include other necessary files and targets
 install(TARGETS ${LIBRARY_NAME}
     EXPORT WorkerQueueTargets
@@ -122,28 +115,29 @@ install(TARGETS ${LIBRARY_NAME}
 # =========================================================
 # Export package config
 # =========================================================
-
 # Export the targets for other projects to find
 install(EXPORT WorkerQueueTargets
-        FILE WorkerQueueTargets.cmake
-        NAMESPACE WorkerQueue::
-        DESTINATION lib/cmake/workerqueue)
+    FILE WorkerQueueTargets.cmake
+    NAMESPACE WorkerQueue::
+    DESTINATION lib/cmake/workerqueue
+)
 
 # Create a config file for find_package
 include(CMakePackageConfigHelpers)
+
 write_basic_package_version_file(
-  "${CMAKE_CURRENT_BINARY_DIR}/WorkerQueueConfigVersion.cmake"
-  VERSION ${PROJECT_VERSION}
-  COMPATIBILITY SameMajorVersion
+    "${CMAKE_CURRENT_BINARY_DIR}/WorkerQueueConfigVersion.cmake"
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY SameMajorVersion
 )
 
 configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/../Config.cmake.in
-  "${CMAKE_CURRENT_BINARY_DIR}/WorkerQueueConfig.cmake"
-  INSTALL_DESTINATION lib/cmake/workerqueue
+    "${CMAKE_CURRENT_BINARY_DIR}/WorkerQueueConfig.cmake"
+    INSTALL_DESTINATION lib/cmake/workerqueue
 )
 
 install(FILES
-  "${CMAKE_CURRENT_BINARY_DIR}/WorkerQueueConfig.cmake"
-  "${CMAKE_CURRENT_BINARY_DIR}/WorkerQueueConfigVersion.cmake"
-  DESTINATION lib/cmake/workerqueue
+    "${CMAKE_CURRENT_BINARY_DIR}/WorkerQueueConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/WorkerQueueConfigVersion.cmake"
+    DESTINATION lib/cmake/workerqueue
 )
